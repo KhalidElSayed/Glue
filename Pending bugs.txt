@@ -1,0 +1,8 @@
+*Be able to update user details
+*Be able to update event
+•Should be able to go back to event information from friend details listing of event
+•Should not be able to add yourself as a friend
+•Should be able to check and uncheck to add and remove friend
+*Better authentication (hashing and salting)
+*Update Stream only when it has changed
+*Do not call the server in cellforindexpath (Invitations)
