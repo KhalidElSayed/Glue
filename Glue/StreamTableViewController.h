@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  StreamTableViewController.h
 //  Glue
 //
 //  Created by Pietro Rea on 4/17/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
+@interface StreamTableViewController : UITableViewController
 
 @end

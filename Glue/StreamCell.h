@@ -1,5 +1,5 @@
 //
-//  SecondViewController.h
+//  StreamCell.h
 //  Glue
 //
 //  Created by Pietro Rea on 4/17/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecondViewController : UIViewController
+@interface StreamCell : UITableViewCell
 
 @end
