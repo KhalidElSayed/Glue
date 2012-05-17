@@ -7,12 +7,33 @@
 //
 
 #import "FriendsTableViewController.h"
+#import "FriendDetailViewController.h"
+#import "SingletonUser.h"
+#import "User.h"
+
+SingletonUser * currentUser;
+User * currentFriend;
+NSMutableArray * friendsMutableArray;
 
 @interface FriendsTableViewController ()
 
 @end
 
 @implementation FriendsTableViewController
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"friendTableToFriendDetail"]){
+        NSLog(@"Going to this Friend's details");
+        FriendDetailViewController * detailedView = [segue destinationViewController];
+        NSIndexPath *path  = [self.tableView indexPathForSelectedRow];
+        User *f = [friendsMutableArray objectAtIndex:path.row];
+        detailedView.currentFriend = f;
+        
+        [self.tableView deselectRowAtIndexPath:path animated:NO];
+    }
+    
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,13 +47,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    friendsMutableArray = [currentUser getFriends];
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+    NSLog(@"viewWillAppear was called");
+    currentUser = [SingletonUser sharedInstance];
+    
+    if (currentUser.shouldUpdateMyFriends == YES){
+        friendsMutableArray = [currentUser getFriends];
+        [self.tableView reloadData];
+        currentUser.shouldUpdateMyFriends = NO;
+    }
+} 
 
 - (void)viewDidUnload
 {
@@ -50,25 +77,35 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    NSLog(@"numberOfRowsInSection has been called");
+    NSLog(@"Number of Friends: %i", [friendsMutableArray count]);
+    return [friendsMutableArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    if (cell == nil){
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:CellIdentifier];
+    }
     
+    currentFriend = [friendsMutableArray objectAtIndex:indexPath.row];
+
+    NSString *name = currentFriend.name;
+    name = [name stringByAppendingString:@" "];
+    NSString *nameField = [name stringByAppendingString:currentFriend.lastname];
+    
+    cell.textLabel.text = nameField;
     return cell;
 }
 

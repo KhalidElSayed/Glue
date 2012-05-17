@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StreamTableViewController : UITableViewController
+@interface StreamTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+
+- (IBAction)refreshStreamButtonPressed:(id)sender;
 
 @end
