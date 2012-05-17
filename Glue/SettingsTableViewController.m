@@ -7,6 +7,10 @@
 //
 
 #import "SettingsTableViewController.h"
+#import "UpdateUserViewController.h"
+#import "SingletonUser.h"
+
+SingletonUser *currentUser;
 
 @interface SettingsTableViewController ()
 
@@ -23,9 +27,16 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    currentUser = [SingletonUser sharedInstance];
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentUser = [SingletonUser sharedInstance];
+    [self addUpdatePassworddButton];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -50,26 +61,79 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    return 3;    
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return @"Account Details";
+    else {
+        return @"Reset Password";
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    
+    static NSString * CellIdentifier = @"Cell";
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 
+                                      reuseIdentifier:CellIdentifier];
+        
+    }
+    
+    if (indexPath.section == 0){
+        
+        if (indexPath.row == 0){
+            cell.textLabel.text = @"Name";
+            cell.detailTextLabel.text = currentUser.fullName;
+        }
+        
+        if (indexPath.row == 1){
+            cell.textLabel.text = @"E-mail";
+            cell.detailTextLabel.text = currentUser.email;
+        }
+        
+        if (indexPath.row == 2){
+            cell.textLabel.text = @"Phone";
+            cell.detailTextLabel.text = currentUser.phone;
+        }
+        
+    }
     
     return cell;
+}
+
+
+- (void) addUpdatePassworddButton
+{
+    UIButton * updatePasswordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIView * buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
+    
+    [updatePasswordButton addTarget:self action:@selector(updatePasswordButtonPressed) forControlEvents:UIControlEventTouchDown];
+    
+    [updatePasswordButton setTitle:@"Update Password" forState:UIControlStateNormal];
+    updatePasswordButton.frame = CGRectMake(10.0, 0.0, self.tableView.frame.size.width - 20, 40.0);
+//    [updatePasswordButton setBackgroundImage:[[UIImage imageNamed:@"redbuttonnew.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
+//    
+//    [updatePasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [buttonView addSubview:updatePasswordButton];
+    self.tableView.tableFooterView = buttonView;
+}
+
+- (void) updatePasswordButtonPressed
+{
+    [self performSegueWithIdentifier:@"settingsToUpdatePassword" sender:self];
 }
 
 /*
@@ -124,4 +188,9 @@
      */
 }
 
+- (IBAction)logOutButtonPressed:(id)sender {
+    
+    [self performSegueWithIdentifier:@"logOutToLogIn" 
+                              sender:self];
+}
 @end

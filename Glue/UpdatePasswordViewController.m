@@ -7,12 +7,19 @@
 //
 
 #import "UpdatePasswordViewController.h"
+#import "SingletonUser.h"
+
+SingletonUser *currentUser;
+
 
 @interface UpdatePasswordViewController ()
 
 @end
 
 @implementation UpdatePasswordViewController
+
+@synthesize updatedPasswordTextField;
+@synthesize retypeUpdatedPasswordTextField;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,6 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    currentUser = [SingletonUser sharedInstance];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -36,6 +44,8 @@
 
 - (void)viewDidUnload
 {
+    [self setUpdatedPasswordTextField:nil];
+    [self setRetypeUpdatedPasswordTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -45,73 +55,6 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -124,4 +67,77 @@
      */
 }
 
+- (IBAction)doneButtonPressed:(id)sender {
+    
+    UIAlertView *alert;
+    
+    if ([[updatedPasswordTextField text] length] == 0) {
+        
+        alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
+                                           message:@"What is the new password?"
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    else if ([[retypeUpdatedPasswordTextField text] length] == 0) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
+                                           message:@"Please retype your new password?"
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    else if (![updatedPasswordTextField.text isEqualToString:retypeUpdatedPasswordTextField.text]) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Try Again" 
+                                           message:@"Your passwords don't match."
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        updatedPasswordTextField.text = nil;
+        retypeUpdatedPasswordTextField.text = nil;
+        
+        return;
+    }
+    
+    int result = [currentUser updatePassword:updatedPasswordTextField.text];
+    
+    
+    /* If successful, hitting "OK" triggers delegate method */
+    
+    if (result == 1){
+        UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Success!" 
+                                                               message:@"Your password has been updated." 
+                                                              delegate:self 
+                                                     cancelButtonTitle:@"OK" 
+                                                     otherButtonTitles:nil];
+        
+        [updatedAlert show];
+        
+    }
+    
+    /* If unsuccessful, hitting "OK" triggers nothing */
+    
+    else {
+        UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Try again!" 
+                                                               message:@"Your password could not be updated." 
+                                                              delegate:nil 
+                                                     cancelButtonTitle:@"OK" 
+                                                     otherButtonTitles:nil];
+        [updatedAlert show];
+    }
+   
+    
+}
+
+/* UIAlertView delegate method */
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

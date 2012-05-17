@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UpdatePasswordViewController : UITableViewController
+@interface UpdatePasswordViewController : UITableViewController <UIAlertViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *updatedPasswordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *retypeUpdatedPasswordTextField;
+
+- (IBAction)doneButtonPressed:(id)sender;
 
 @end

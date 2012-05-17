@@ -10,4 +10,7 @@
 
 @interface MyEventsTableViewController : UITableViewController
 
+- (IBAction)createNewEventButton:(id)sender;
+
+
 @end

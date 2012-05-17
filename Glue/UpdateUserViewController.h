@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface UpdateUserViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UITextField *firstNameTextLabel;
+@property (weak, nonatomic) IBOutlet UITextField *lastNameTextLabel;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextLabel;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextLabel;
+
+- (IBAction)doneButtonPressed:(id)sender;
 
 @end

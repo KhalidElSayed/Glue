@@ -7,12 +7,19 @@
 //
 
 #import "UpdateUserViewController.h"
+#import "SingletonUser.h"
+
+SingletonUser *currentUser;
 
 @interface UpdateUserViewController ()
 
 @end
 
 @implementation UpdateUserViewController
+@synthesize firstNameTextLabel;
+@synthesize lastNameTextLabel;
+@synthesize emailTextLabel;
+@synthesize phoneTextLabel;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,7 +33,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    currentUser = [SingletonUser sharedInstance];
+    self.firstNameTextLabel.text = currentUser.name;
+    self.lastNameTextLabel.text = currentUser.lastname;
+    self.emailTextLabel.text = currentUser.email;
+    self.phoneTextLabel.text = currentUser.phone;
+    
+    [self.firstNameTextLabel becomeFirstResponder];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -36,6 +50,10 @@
 
 - (void)viewDidUnload
 {
+    [self setFirstNameTextLabel:nil];
+    [self setLastNameTextLabel:nil];
+    [self setEmailTextLabel:nil];
+    [self setPhoneTextLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -46,73 +64,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
@@ -122,6 +73,92 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (IBAction)doneButtonPressed:(id)sender {
+    
+    UIAlertView *alert;
+    if ([[self.firstNameTextLabel text] length] == 0) {
+        
+        alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
+                                           message:@"What is the new name?"
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    else if ([[self.lastNameTextLabel text] length] == 0) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
+                                           message:@"What is your new last name?"
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    /* Check if e-mail address doesn't already exist in the system */
+    else if ([[self.emailTextLabel text] length] == 0) {
+        alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
+                                           message:@"What is your new e-mail address?"
+                                          delegate:nil 
+                                 cancelButtonTitle:@"Okay" 
+                                 otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    int result = [currentUser updateUserDetailsWithFirstName:firstNameTextLabel.text 
+                                             andUserLastName:lastNameTextLabel.text 
+                                                andUserEmail:emailTextLabel.text 
+                                                andUserPhone:phoneTextLabel.text];
+    
+    
+    /* If successful, hitting "OK" triggers delegate method. */
+    if (result == 1){
+        UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Success!" 
+                                                               message:@"Your information has been updated." 
+                                                              delegate:self 
+                                                     cancelButtonTitle:@"OK" 
+                                                     otherButtonTitles:nil];
+        
+        currentUser.name = firstNameTextLabel.text;
+        currentUser.lastname = lastNameTextLabel.text;
+        currentUser.fullName = [NSString stringWithFormat:@"%@ %@", currentUser.name, currentUser.lastname];
+        currentUser.email = emailTextLabel.text;
+        currentUser.phone = phoneTextLabel.text;
+        [updatedAlert show];
+    }
+    
+    /* If user already exists, hitting "OK" triggers nothing. */
+    else if (result == 2){
+        UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Error!" 
+                                                               message:@"A user with that e-mail already exists." 
+                                                              delegate:nil 
+                                                     cancelButtonTitle:@"OK" 
+                                                     otherButtonTitles:nil];
+        [updatedAlert show];
+    }
+    
+    /* If unsuccessful, hitting "OK" triggers nothing */
+    
+    else {
+        UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Try again" 
+                                                               message:@"Your information could not be updated." 
+                                                              delegate:nil 
+                                                     cancelButtonTitle:@"OK" 
+                                                     otherButtonTitles:nil];
+        [updatedAlert show];
+    }
+    
+}
+
+/* UIAlertView delegate method */
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

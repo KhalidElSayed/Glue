@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE256D1B154F4DC300C2AF90 /* MyEventsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE256D1A154F4DC300C2AF90 /* MyEventsTableViewController.m */; };
+		FE256D1E154F630E00C2AF90 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = FE256D1D154F630E00C2AF90 /* Event.m */; };
+		FE32F4211562191F007FD863 /* UpdatePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE32F4201562191E007FD863 /* UpdatePasswordViewController.m */; };
+		FE32F424156227FA007FD863 /* UpdateUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE32F423156227FA007FD863 /* UpdateUserViewController.m */; };
+		FE379DFA154604B40077DD2A /* FriendDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE379DF9154604B40077DD2A /* FriendDetailViewController.m */; };
+		FE379DFD15464EB20077DD2A /* AddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE379DFC15464EB10077DD2A /* AddFriendsViewController.m */; };
+		FE379E001546514C0077DD2A /* InviteFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE379DFF1546514B0077DD2A /* InviteFriendCell.m */; };
+		FE379E4D154A3D590077DD2A /* SingletonUser.m in Sources */ = {isa = PBXBuildFile; fileRef = FE379E4C154A3D590077DD2A /* SingletonUser.m */; };
+		FE379E50154A3F180077DD2A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = FE379E4F154A3F180077DD2A /* User.m */; };
 		FE7AD79C153DDE6B00C4FAAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7AD79B153DDE6B00C4FAAA /* UIKit.framework */; };
 		FE7AD79E153DDE6B00C4FAAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7AD79D153DDE6B00C4FAAA /* Foundation.framework */; };
 		FE7AD7A0153DDE6B00C4FAAA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7AD79F153DDE6B00C4FAAA /* CoreGraphics.framework */; };
@@ -14,34 +23,85 @@
 		FE7AD7A8153DDE6B00C4FAAA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7A7153DDE6B00C4FAAA /* main.m */; };
 		FE7AD7AC153DDE6B00C4FAAA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7AB153DDE6B00C4FAAA /* AppDelegate.m */; };
 		FE7AD7AF153DDE6B00C4FAAA /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7AD153DDE6B00C4FAAA /* MainStoryboard.storyboard */; };
-		FE7AD7B2153DDE6B00C4FAAA /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7B1153DDE6B00C4FAAA /* FirstViewController.m */; };
-		FE7AD7B4153DDE6B00C4FAAA /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7B3153DDE6B00C4FAAA /* first.png */; };
-		FE7AD7B6153DDE6C00C4FAAA /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7B5153DDE6B00C4FAAA /* first@2x.png */; };
-		FE7AD7B9153DDE6C00C4FAAA /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7B8153DDE6C00C4FAAA /* SecondViewController.m */; };
-		FE7AD7BB153DDE6C00C4FAAA /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7BA153DDE6C00C4FAAA /* second.png */; };
-		FE7AD7BD153DDE6C00C4FAAA /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7BC153DDE6C00C4FAAA /* second@2x.png */; };
+		FE7AD7CB153DE9BE00C4FAAA /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7CA153DE9BE00C4FAAA /* 112-group.png */; };
+		FE7AD7CD153DEA1300C4FAAA /* 20-gear2.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7CC153DEA1200C4FAAA /* 20-gear2.png */; };
+		FE7AD7CF153DEA7500C4FAAA /* 10-medical.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7CE153DEA7500C4FAAA /* 10-medical.png */; };
+		FE7AD7D1153DEB7D00C4FAAA /* 83-calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7D0153DEB7D00C4FAAA /* 83-calendar.png */; };
+		FE7AD7D3153DECB300C4FAAA /* 259-list.png in Resources */ = {isa = PBXBuildFile; fileRef = FE7AD7D2153DECB200C4FAAA /* 259-list.png */; };
+		FE7AD7D8153DFF2C00C4FAAA /* StreamTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7D7153DFF2C00C4FAAA /* StreamTableViewController.m */; };
+		FE7AD7DE153E716000C4FAAA /* StreamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7DD153E715F00C4FAAA /* StreamCell.m */; };
+		FE7AD7E51541DAD700C4FAAA /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7E41541DAD700C4FAAA /* EventDetailViewController.m */; };
+		FE7AD7EF1541F2C100C4FAAA /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7EE1541F2C000C4FAAA /* FriendsTableViewController.m */; };
+		FE7AD7F21542020600C4FAAA /* CreateEventTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE7AD7F11542020600C4FAAA /* CreateEventTableViewController.m */; };
+		FE853160155BAF8F004AA7D0 /* redbuttonnew.png in Resources */ = {isa = PBXBuildFile; fileRef = FE85315F155BAF8F004AA7D0 /* redbuttonnew.png */; };
+		FEFEBA341553672400F15142 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEBA331553672400F15142 /* LoginViewController.m */; };
+		FEFEBA3C1556C07800F15142 /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEBA3B1556C07700F15142 /* SettingsTableViewController.m */; };
+		FEFEBA401558435300F15142 /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEBA3F1558435300F15142 /* SignUpViewController.m */; };
+		FEFEBA4A1559B84D00F15142 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEBA491559B84C00F15142 /* SearchViewController.m */; };
+		FEFEBA69155B1F3900F15142 /* appicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFEBA68155B1F3900F15142 /* appicon.png */; };
+		FEFEBA6B155B1F4D00F15142 /* appicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFEBA6A155B1F4C00F15142 /* appicon@2x.png */; };
+		FEFEBA6D155B349C00F15142 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFEBA6C155B349C00F15142 /* redbutton.png */; };
+		FEFEBA6F155B54C000F15142 /* loginbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = FEFEBA6E155B54C000F15142 /* loginbackground.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FE256D19154F4DC300C2AF90 /* MyEventsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEventsTableViewController.h; sourceTree = "<group>"; };
+		FE256D1A154F4DC300C2AF90 /* MyEventsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEventsTableViewController.m; sourceTree = "<group>"; };
+		FE256D1C154F630E00C2AF90 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		FE256D1D154F630E00C2AF90 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		FE32F41F1562191E007FD863 /* UpdatePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatePasswordViewController.h; sourceTree = "<group>"; };
+		FE32F4201562191E007FD863 /* UpdatePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatePasswordViewController.m; sourceTree = "<group>"; };
+		FE32F422156227F9007FD863 /* UpdateUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUserViewController.h; sourceTree = "<group>"; };
+		FE32F423156227FA007FD863 /* UpdateUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserViewController.m; sourceTree = "<group>"; };
+		FE379DF8154604B40077DD2A /* FriendDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendDetailViewController.h; sourceTree = "<group>"; };
+		FE379DF9154604B40077DD2A /* FriendDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendDetailViewController.m; sourceTree = "<group>"; };
+		FE379DFB15464EB10077DD2A /* AddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFriendsViewController.h; sourceTree = "<group>"; };
+		FE379DFC15464EB10077DD2A /* AddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFriendsViewController.m; sourceTree = "<group>"; };
+		FE379DFE1546514B0077DD2A /* InviteFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteFriendCell.h; sourceTree = "<group>"; };
+		FE379DFF1546514B0077DD2A /* InviteFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteFriendCell.m; sourceTree = "<group>"; };
+		FE379E4B154A3D590077DD2A /* SingletonUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonUser.h; sourceTree = "<group>"; };
+		FE379E4C154A3D590077DD2A /* SingletonUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingletonUser.m; sourceTree = "<group>"; };
+		FE379E4E154A3F180077DD2A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = ../User.h; sourceTree = "<group>"; };
+		FE379E4F154A3F180077DD2A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = ../User.m; sourceTree = "<group>"; };
 		FE7AD797153DDE6B00C4FAAA /* Glue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Glue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE7AD79B153DDE6B00C4FAAA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FE7AD79D153DDE6B00C4FAAA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FE7AD79F153DDE6B00C4FAAA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		FE7AD7A3153DDE6B00C4FAAA /* Glue-Info.plist */ = {isa = PBXFileReference; path = "Glue-Info.plist"; sourceTree = "<group>"; };
+		FE7AD7A3153DDE6B00C4FAAA /* Glue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Glue-Info.plist"; sourceTree = "<group>"; };
 		FE7AD7A5153DDE6B00C4FAAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE7AD7A7153DDE6B00C4FAAA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FE7AD7A9153DDE6B00C4FAAA /* Glue-Prefix.pch */ = {isa = PBXFileReference; path = "Glue-Prefix.pch"; sourceTree = "<group>"; };
-		FE7AD7AA153DDE6B00C4FAAA /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		FE7AD7A9153DDE6B00C4FAAA /* Glue-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Glue-Prefix.pch"; sourceTree = "<group>"; };
+		FE7AD7AA153DDE6B00C4FAAA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FE7AD7AB153DDE6B00C4FAAA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FE7AD7AE153DDE6B00C4FAAA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		FE7AD7B0153DDE6B00C4FAAA /* FirstViewController.h */ = {isa = PBXFileReference; path = FirstViewController.h; sourceTree = "<group>"; };
-		FE7AD7B1153DDE6B00C4FAAA /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		FE7AD7B3153DDE6B00C4FAAA /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		FE7AD7B5153DDE6B00C4FAAA /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		FE7AD7B7153DDE6C00C4FAAA /* SecondViewController.h */ = {isa = PBXFileReference; path = SecondViewController.h; sourceTree = "<group>"; };
-		FE7AD7B8153DDE6C00C4FAAA /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		FE7AD7BA153DDE6C00C4FAAA /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		FE7AD7BC153DDE6C00C4FAAA /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		FE7AD7CA153DE9BE00C4FAAA /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "112-group.png"; sourceTree = "<group>"; };
+		FE7AD7CC153DEA1200C4FAAA /* 20-gear2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-gear2.png"; sourceTree = "<group>"; };
+		FE7AD7CE153DEA7500C4FAAA /* 10-medical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "10-medical.png"; sourceTree = "<group>"; };
+		FE7AD7D0153DEB7D00C4FAAA /* 83-calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "83-calendar.png"; sourceTree = "<group>"; };
+		FE7AD7D2153DECB200C4FAAA /* 259-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "259-list.png"; sourceTree = "<group>"; };
+		FE7AD7D6153DFF2C00C4FAAA /* StreamTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamTableViewController.h; sourceTree = "<group>"; };
+		FE7AD7D7153DFF2C00C4FAAA /* StreamTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamTableViewController.m; sourceTree = "<group>"; };
+		FE7AD7DC153E715F00C4FAAA /* StreamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamCell.h; sourceTree = "<group>"; };
+		FE7AD7DD153E715F00C4FAAA /* StreamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamCell.m; sourceTree = "<group>"; };
+		FE7AD7E31541DAD700C4FAAA /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailViewController.h; sourceTree = "<group>"; };
+		FE7AD7E41541DAD700C4FAAA /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailViewController.m; sourceTree = "<group>"; };
+		FE7AD7ED1541F2C000C4FAAA /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
+		FE7AD7EE1541F2C000C4FAAA /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
+		FE7AD7F01542020600C4FAAA /* CreateEventTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateEventTableViewController.h; sourceTree = "<group>"; };
+		FE7AD7F11542020600C4FAAA /* CreateEventTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEventTableViewController.m; sourceTree = "<group>"; };
+		FE85315F155BAF8F004AA7D0 /* redbuttonnew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbuttonnew.png; sourceTree = "<group>"; };
+		FEFEBA321553672400F15142 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		FEFEBA331553672400F15142 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		FEFEBA3A1556C07700F15142 /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		FEFEBA3B1556C07700F15142 /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
+		FEFEBA3E1558435200F15142 /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		FEFEBA3F1558435300F15142 /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		FEFEBA481559B84C00F15142 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		FEFEBA491559B84C00F15142 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
+		FEFEBA68155B1F3900F15142 /* appicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = appicon.png; path = ../appicon.png; sourceTree = "<group>"; };
+		FEFEBA6A155B1F4C00F15142 /* appicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "appicon@2x.png"; path = "../appicon@2x.png"; sourceTree = "<group>"; };
+		FEFEBA6C155B349C00F15142 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
+		FEFEBA6E155B54C000F15142 /* loginbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbackground.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,17 +148,45 @@
 		FE7AD7A1153DDE6B00C4FAAA /* Glue */ = {
 			isa = PBXGroup;
 			children = (
+				FE7AD7AD153DDE6B00C4FAAA /* MainStoryboard.storyboard */,
+				FE379E4E154A3F180077DD2A /* User.h */,
+				FE379E4F154A3F180077DD2A /* User.m */,
+				FE256D1C154F630E00C2AF90 /* Event.h */,
+				FE256D1D154F630E00C2AF90 /* Event.m */,
+				FE7AD7DC153E715F00C4FAAA /* StreamCell.h */,
+				FE7AD7DD153E715F00C4FAAA /* StreamCell.m */,
+				FE379DFE1546514B0077DD2A /* InviteFriendCell.h */,
+				FE379DFF1546514B0077DD2A /* InviteFriendCell.m */,
+				FE379E4B154A3D590077DD2A /* SingletonUser.h */,
+				FE379E4C154A3D590077DD2A /* SingletonUser.m */,
+				FEFEBA321553672400F15142 /* LoginViewController.h */,
+				FEFEBA331553672400F15142 /* LoginViewController.m */,
+				FEFEBA3E1558435200F15142 /* SignUpViewController.h */,
+				FEFEBA3F1558435300F15142 /* SignUpViewController.m */,
+				FE256D19154F4DC300C2AF90 /* MyEventsTableViewController.h */,
+				FE256D1A154F4DC300C2AF90 /* MyEventsTableViewController.m */,
+				FE7AD7D6153DFF2C00C4FAAA /* StreamTableViewController.h */,
+				FE7AD7D7153DFF2C00C4FAAA /* StreamTableViewController.m */,
+				FE7AD7E31541DAD700C4FAAA /* EventDetailViewController.h */,
+				FE7AD7E41541DAD700C4FAAA /* EventDetailViewController.m */,
+				FE7AD7F01542020600C4FAAA /* CreateEventTableViewController.h */,
+				FE7AD7F11542020600C4FAAA /* CreateEventTableViewController.m */,
+				FE379DFB15464EB10077DD2A /* AddFriendsViewController.h */,
+				FE379DFC15464EB10077DD2A /* AddFriendsViewController.m */,
+				FE7AD7ED1541F2C000C4FAAA /* FriendsTableViewController.h */,
+				FE7AD7EE1541F2C000C4FAAA /* FriendsTableViewController.m */,
+				FE379DF8154604B40077DD2A /* FriendDetailViewController.h */,
+				FE379DF9154604B40077DD2A /* FriendDetailViewController.m */,
+				FEFEBA481559B84C00F15142 /* SearchViewController.h */,
+				FEFEBA491559B84C00F15142 /* SearchViewController.m */,
+				FEFEBA3A1556C07700F15142 /* SettingsTableViewController.h */,
+				FEFEBA3B1556C07700F15142 /* SettingsTableViewController.m */,
+				FE32F422156227F9007FD863 /* UpdateUserViewController.h */,
+				FE32F423156227FA007FD863 /* UpdateUserViewController.m */,
+				FE32F41F1562191E007FD863 /* UpdatePasswordViewController.h */,
+				FE32F4201562191E007FD863 /* UpdatePasswordViewController.m */,
 				FE7AD7AA153DDE6B00C4FAAA /* AppDelegate.h */,
 				FE7AD7AB153DDE6B00C4FAAA /* AppDelegate.m */,
-				FE7AD7AD153DDE6B00C4FAAA /* MainStoryboard.storyboard */,
-				FE7AD7B0153DDE6B00C4FAAA /* FirstViewController.h */,
-				FE7AD7B1153DDE6B00C4FAAA /* FirstViewController.m */,
-				FE7AD7B3153DDE6B00C4FAAA /* first.png */,
-				FE7AD7B5153DDE6B00C4FAAA /* first@2x.png */,
-				FE7AD7B7153DDE6C00C4FAAA /* SecondViewController.h */,
-				FE7AD7B8153DDE6C00C4FAAA /* SecondViewController.m */,
-				FE7AD7BA153DDE6C00C4FAAA /* second.png */,
-				FE7AD7BC153DDE6C00C4FAAA /* second@2x.png */,
 				FE7AD7A2153DDE6B00C4FAAA /* Supporting Files */,
 			);
 			path = Glue;
@@ -107,6 +195,16 @@
 		FE7AD7A2153DDE6B00C4FAAA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FE85315F155BAF8F004AA7D0 /* redbuttonnew.png */,
+				FEFEBA6E155B54C000F15142 /* loginbackground.png */,
+				FEFEBA6C155B349C00F15142 /* redbutton.png */,
+				FEFEBA6A155B1F4C00F15142 /* appicon@2x.png */,
+				FEFEBA68155B1F3900F15142 /* appicon.png */,
+				FE7AD7D2153DECB200C4FAAA /* 259-list.png */,
+				FE7AD7D0153DEB7D00C4FAAA /* 83-calendar.png */,
+				FE7AD7CE153DEA7500C4FAAA /* 10-medical.png */,
+				FE7AD7CC153DEA1200C4FAAA /* 20-gear2.png */,
+				FE7AD7CA153DE9BE00C4FAAA /* 112-group.png */,
 				FE7AD7A3153DDE6B00C4FAAA /* Glue-Info.plist */,
 				FE7AD7A4153DDE6B00C4FAAA /* InfoPlist.strings */,
 				FE7AD7A7153DDE6B00C4FAAA /* main.m */,
@@ -167,10 +265,16 @@
 			files = (
 				FE7AD7A6153DDE6B00C4FAAA /* InfoPlist.strings in Resources */,
 				FE7AD7AF153DDE6B00C4FAAA /* MainStoryboard.storyboard in Resources */,
-				FE7AD7B4153DDE6B00C4FAAA /* first.png in Resources */,
-				FE7AD7B6153DDE6C00C4FAAA /* first@2x.png in Resources */,
-				FE7AD7BB153DDE6C00C4FAAA /* second.png in Resources */,
-				FE7AD7BD153DDE6C00C4FAAA /* second@2x.png in Resources */,
+				FE7AD7CB153DE9BE00C4FAAA /* 112-group.png in Resources */,
+				FE7AD7CD153DEA1300C4FAAA /* 20-gear2.png in Resources */,
+				FE7AD7CF153DEA7500C4FAAA /* 10-medical.png in Resources */,
+				FE7AD7D1153DEB7D00C4FAAA /* 83-calendar.png in Resources */,
+				FE7AD7D3153DECB300C4FAAA /* 259-list.png in Resources */,
+				FEFEBA69155B1F3900F15142 /* appicon.png in Resources */,
+				FEFEBA6B155B1F4D00F15142 /* appicon@2x.png in Resources */,
+				FEFEBA6D155B349C00F15142 /* redbutton.png in Resources */,
+				FEFEBA6F155B54C000F15142 /* loginbackground.png in Resources */,
+				FE853160155BAF8F004AA7D0 /* redbuttonnew.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,8 +287,24 @@
 			files = (
 				FE7AD7A8153DDE6B00C4FAAA /* main.m in Sources */,
 				FE7AD7AC153DDE6B00C4FAAA /* AppDelegate.m in Sources */,
-				FE7AD7B2153DDE6B00C4FAAA /* FirstViewController.m in Sources */,
-				FE7AD7B9153DDE6C00C4FAAA /* SecondViewController.m in Sources */,
+				FE7AD7D8153DFF2C00C4FAAA /* StreamTableViewController.m in Sources */,
+				FE7AD7DE153E716000C4FAAA /* StreamCell.m in Sources */,
+				FE7AD7E51541DAD700C4FAAA /* EventDetailViewController.m in Sources */,
+				FE7AD7EF1541F2C100C4FAAA /* FriendsTableViewController.m in Sources */,
+				FE7AD7F21542020600C4FAAA /* CreateEventTableViewController.m in Sources */,
+				FE379DFA154604B40077DD2A /* FriendDetailViewController.m in Sources */,
+				FE379DFD15464EB20077DD2A /* AddFriendsViewController.m in Sources */,
+				FE379E001546514C0077DD2A /* InviteFriendCell.m in Sources */,
+				FE379E4D154A3D590077DD2A /* SingletonUser.m in Sources */,
+				FE379E50154A3F180077DD2A /* User.m in Sources */,
+				FE256D1B154F4DC300C2AF90 /* MyEventsTableViewController.m in Sources */,
+				FE256D1E154F630E00C2AF90 /* Event.m in Sources */,
+				FEFEBA341553672400F15142 /* LoginViewController.m in Sources */,
+				FEFEBA3C1556C07800F15142 /* SettingsTableViewController.m in Sources */,
+				FEFEBA401558435300F15142 /* SignUpViewController.m in Sources */,
+				FEFEBA4A1559B84D00F15142 /* SearchViewController.m in Sources */,
+				FE32F4211562191F007FD863 /* UpdatePasswordViewController.m in Sources */,
+				FE32F424156227FA007FD863 /* UpdateUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,10 +378,14 @@
 		FE7AD7C1153DDE6C00C4FAAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Pietro Rea (XQC5FZXNDU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Pietro Rea (XQC5FZXNDU)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Glue/Glue-Prefix.pch";
 				INFOPLIST_FILE = "Glue/Glue-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "C15FF129-09D3-44DE-B3B1-CD94754A89EE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C15FF129-09D3-44DE-B3B1-CD94754A89EE";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -269,10 +393,14 @@
 		FE7AD7C2153DDE6C00C4FAAA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ZAP E-Commerce LLC";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ZAP E-Commerce LLC";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Glue/Glue-Prefix.pch";
 				INFOPLIST_FILE = "Glue/Glue-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "23BD9C3E-7A92-42F2-A4BC-BE1119976240";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "23BD9C3E-7A92-42F2-A4BC-BE1119976240";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -296,6 +424,7 @@
 				FE7AD7C2153DDE6C00C4FAAA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
