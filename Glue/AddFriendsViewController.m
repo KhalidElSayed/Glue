@@ -11,10 +11,11 @@
 #import "SingletonUser.h"
 #import "User.h"
 
-SingletonUser * currentUser;
-NSMutableArray * mutableArrayOfFriends;
-NSMutableArray * runningGuestList;
-User * currentFriend;
+SingletonUser *currentUser;
+NSMutableArray *mutableArrayOfFriends;
+NSMutableArray *runningGuestList;
+NSMutableArray *UISwitchStates;
+User *currentFriend;
 
 @interface AddFriendsViewController ()
 
@@ -28,11 +29,6 @@ User * currentFriend;
 @synthesize eventStarTime; 
 @synthesize eventEndTime; 
 @synthesize eventDescription;
-
-//For editing existing events
-@synthesize currentGuestList;
-@synthesize previousViewController;
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -50,18 +46,18 @@ User * currentFriend;
     currentUser = [SingletonUser sharedInstance];
     mutableArrayOfFriends = [currentUser getFriends];
     runningGuestList = [[NSMutableArray alloc] init];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    UISwitchStates = [NSMutableArray arrayWithCapacity:mutableArrayOfFriends.count];
+    for (int i = 0; i < mutableArrayOfFriends.count; i++){
+        NSNumber *noObj = [NSNumber numberWithBool:NO];
+        [UISwitchStates insertObject:noObj atIndex:i];
+    }
+    
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -73,13 +69,7 @@ User * currentFriend;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ([self.previousViewController isEqualToString:@"CreateEventTableViewController"]){
-        return @"Step 2: Update Guest List";
-    }
-    else {
-        return @"Step 2: Invite Friends to Event";
-    }
-    
+    return @"Step 2: Invite Friends to Event";
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,8 +85,7 @@ User * currentFriend;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    InviteFriendCell *cell;
-    cell = [self.tableView dequeueReusableCellWithIdentifier:@"InviteFriendCell"];
+    InviteFriendCell *cell= [self.tableView dequeueReusableCellWithIdentifier:@"InviteFriendCell"];
         
     if (cell == nil) {
         cell = [[InviteFriendCell alloc] init];
@@ -106,13 +95,13 @@ User * currentFriend;
     
     cell.delegate = self;
     cell.friendUserID = currentFriend.userid;
+    cell.friendName.text = currentFriend.fullName;
+    cell.tag = indexPath.row;
     
-    NSString *name = currentFriend.name;
-    name = [name stringByAppendingString:@" "];
-    NSString *nameField = [name stringByAppendingString:currentFriend.lastname];
-        
-    NSLog(@"nameField is %@", nameField);
-    cell.friendName.text = nameField;
+    //Set UISwitch according to global NSMutableArray UISwitchStates
+    BOOL state = [[UISwitchStates objectAtIndex:indexPath.row] boolValue];
+    [cell.inviteFriendSwitch setOn:state animated:NO];
+    
     return cell;
 }
 
@@ -143,53 +132,41 @@ User * currentFriend;
         [currentUser addGuest:[friendID intValue] inEvent:eventID];
     }
     
-    if ([self.previousViewController isEqualToString:@"CreateEventTableViewController"]){
-        
-        UIAlertView * eventCreatedAlert = [[UIAlertView alloc] 
-                                           initWithTitle:@"Success!" 
-                                           message:@"Your event has been updated." 
-                                           delegate:self 
-                                           cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil];
-        
-        [eventCreatedAlert show];
-    }
-    
-    else {
-        
-        UIAlertView * eventCreatedAlert = [[UIAlertView alloc] 
-                                           initWithTitle:@"Success!" 
-                                           message:@"Your event has been created." 
-                                           delegate:self 
-                                           cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil];
-        [eventCreatedAlert show];
-        currentUser.shouldUpdateMyEvents = YES;
-    }
-    
+    UIAlertView * eventCreatedAlert = [[UIAlertView alloc] 
+                                       initWithTitle:@"Success!" 
+                                       message:@"Your event has been created." 
+                                       delegate:self 
+                                       cancelButtonTitle:@"OK" 
+                                       otherButtonTitles:nil];
+    [eventCreatedAlert show];
+    currentUser.shouldUpdateMyEvents = YES;
     
 }
 
-- (void) addToGuestList: (int) guestID 
+- (void) addToGuestList: (id) sender 
 {
     NSLog(@"addToGuestList was called");
-    NSNumber * guestIDNumber = [NSNumber numberWithInt:guestID];
+    InviteFriendCell *selectedCell = (InviteFriendCell*) sender;
+    NSNumber *guestIDNumber = [NSNumber numberWithInt:selectedCell.friendUserID];
+    
+    NSNumber *yesObj = [NSNumber numberWithBool:YES];
+    [UISwitchStates insertObject:yesObj atIndex:selectedCell.tag];
     [runningGuestList addObject:guestIDNumber];
 }
 
-- (void) removeFromGuestList: (int) guestID 
+- (void) removeFromGuestList: (id) sender 
 {
     NSLog(@"removeFromGuestList was called");
-    NSNumber * guestIDNumber = [NSNumber numberWithInt:guestID];
+    InviteFriendCell *selectedCell = (InviteFriendCell*) sender;
+    NSNumber *guestIDNumber = [NSNumber numberWithInt:selectedCell.friendUserID];
+    
+    NSNumber *noObj = [NSNumber numberWithBool:NO];
+    [UISwitchStates insertObject:noObj atIndex:selectedCell.tag];
     [runningGuestList removeObject:guestIDNumber];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex 
 {
-    if ([self.previousViewController isEqualToString:@"CreateEventTableViewController"]){
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }
-    
     self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }

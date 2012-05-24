@@ -21,6 +21,11 @@ NSMutableArray* mutableArrayOfInvitations;
 
 @implementation StreamTableViewController
 
+- (IBAction)refreshStreamButtonPressed:(id)sender {
+    mutableArrayOfInvitations = [currentUser getInvitations];
+    [self.tableView reloadData];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {    
     EventDetailViewController *vc = [segue destinationViewController];
@@ -38,12 +43,9 @@ NSMutableArray* mutableArrayOfInvitations;
     vc.eventDescription = selectedEvent.eventDescription;
     vc.eventGuestList = selectedEvent.eventGuests;
     vc.eventGuestListKeys = [selectedEvent.eventGuests allKeys];
-    
     vc.previousUIView = @"StreamTableViewController";
     
     [self.tableView deselectRowAtIndexPath:path animated:NO];
-    
-    NSLog(@"Size of eventGuestListKeys is %i", vc.eventGuestListKeys.count);
 } 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -56,7 +58,6 @@ NSMutableArray* mutableArrayOfInvitations;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    NSLog(@"viewWillAppear was called");
     mutableArrayOfInvitations = [currentUser getInvitations];
     [self.tableView reloadData];
 }   
@@ -119,10 +120,4 @@ NSMutableArray* mutableArrayOfInvitations;
      */
 }
 
-
-- (IBAction)refreshStreamButtonPressed:(id)sender {
-    NSLog(@"Refresh button was pressed");
-    mutableArrayOfInvitations = [currentUser getInvitations];
-    [self.tableView reloadData];
-}
 @end

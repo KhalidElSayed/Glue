@@ -21,6 +21,11 @@ NSMutableArray * eventsMutableArray;
 
 @implementation MyEventsTableViewController
 
+//createNewEventButton is called when the "+" button is pressed.
+-(IBAction)createNewEventButton:(id)sender {
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:2];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {    
     EventDetailViewController *vc = [segue destinationViewController];
@@ -37,12 +42,9 @@ NSMutableArray * eventsMutableArray;
     vc.eventDescription = selectedEvent.eventDescription;
     vc.eventGuestList = selectedEvent.eventGuests;
     vc.eventGuestListKeys = [selectedEvent.eventGuests allKeys];
-    
     vc.previousUIView = @"MyEventsTableViewController";
     
     [self.tableView deselectRowAtIndexPath:path animated:NO];
-    
-    NSLog(@"Size of eventGuestListKeys is %i", vc.eventGuestListKeys.count);
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -55,7 +57,6 @@ NSMutableArray * eventsMutableArray;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    NSLog(@"viewWillAppear was called");
     currentUser = [SingletonUser sharedInstance];
     
     if (currentUser.shouldUpdateMyEvents == YES){
@@ -68,7 +69,6 @@ NSMutableArray * eventsMutableArray;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"viewWillAppear was called");
     self.tableView.rowHeight = 65;
 }
 
@@ -91,15 +91,12 @@ NSMutableArray * eventsMutableArray;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"numberOfRowsInSection was called");
     return [eventsMutableArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"cellForRowAtIndexPath was called");
-    StreamCell * cell;
-    
+    StreamCell *cell;    
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (!cell) {
@@ -119,9 +116,4 @@ NSMutableArray * eventsMutableArray;
 
 }
 
-- (IBAction)createNewEventButton:(id)sender {
-    
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:2];
-    
-}
 @end

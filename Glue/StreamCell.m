@@ -4,13 +4,16 @@
 //
 //  Created by Pietro Rea on 4/17/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+
+/* StreamCells are used in the "My Events" and the "Stream" tabs */
 
 #import "StreamCell.h"
 
 @implementation StreamCell
 
-@synthesize eventName, eventHost, eventTime;
+@synthesize eventName;
+@synthesize eventHost;
+@synthesize eventTime;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

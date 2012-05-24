@@ -4,7 +4,9 @@
 //
 //  Created by Pietro Rea on 4/23/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+
+//InviteFriendCells are used in the second step of creating a new
+//event. They allow you to invite a friend using a UISwitch (On/Off)
 
 #import "InviteFriendCell.h"
 
@@ -14,8 +16,6 @@
 @synthesize friendUserID;
 @synthesize inviteFriendSwitch;
 @synthesize delegate;
-
-//@synthesize friendName, friendUserID, inviteFriendSegmentedControl, delegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -33,21 +33,18 @@
     // Configure the view for the selected state
 }
 
+/* This private method is called whenever UISwitch changes value. */
 - (IBAction) changedInviteFriendSwitch:(id)sender
 {
 
     UISwitch *inviteSwitch = (UISwitch *) sender;
     
     if (inviteSwitch.on){
-        NSLog(@"The switch has turned ON");
-        NSLog(@"The friendId is %i", friendUserID);
-        [self.delegate addToGuestList:friendUserID];
+        [self.delegate addToGuestList:self];
     }
     
     else {
-        NSLog(@"The switch has turned OFF");
-        NSLog(@"The friendId is %i", friendUserID);
-        [self.delegate removeFromGuestList:friendUserID];
+        [self.delegate removeFromGuestList:self];
     }
     
 }

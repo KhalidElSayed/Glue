@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SettingsTableViewController : UITableViewController
+
 - (IBAction)logOutButtonPressed:(id)sender;
 
 @end

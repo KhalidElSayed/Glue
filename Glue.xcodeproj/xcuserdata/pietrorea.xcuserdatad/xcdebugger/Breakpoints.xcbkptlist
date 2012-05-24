@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/AddFriendsViewController.h"
-         timestampString = "358787479.665041"
+         timestampString = "359528704.607627"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "28"
-         endingLineNumber = "28"
+         startingLineNumber = "24"
+         endingLineNumber = "24"
          landmarkName = "@interface AddFriendsViewController"
          landmarkType = "2">
       </FileBreakpoint>
@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/MyEventsTableViewController.m"
-         timestampString = "358725720.4787"
+         timestampString = "359579511.171227"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "38"
-         endingLineNumber = "38"
+         startingLineNumber = "43"
+         endingLineNumber = "43"
          landmarkName = "-prepareForSegue:sender:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -73,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/SingletonUser.h"
-         timestampString = "358284549.539083"
+         timestampString = "359578603.635898"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "25"
-         endingLineNumber = "25"
+         startingLineNumber = "28"
+         endingLineNumber = "28"
          landmarkName = "shouldUpdateMyEvents"
          landmarkType = "19">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/SingletonUser.m"
-         timestampString = "358711273.085422"
+         timestampString = "359578603.635898"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-getMyEvents"
          landmarkType = "5">
       </FileBreakpoint>
@@ -112,11 +112,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/SingletonUser.m"
-         timestampString = "358138873.250509"
+         timestampString = "359578603.635898"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "13"
-         endingLineNumber = "13"
+         startingLineNumber = "21"
+         endingLineNumber = "21"
          landmarkName = "@implementation SingletonUser"
          landmarkType = "3">
       </FileBreakpoint>

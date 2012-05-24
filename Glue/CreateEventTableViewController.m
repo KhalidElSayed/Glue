@@ -51,11 +51,6 @@ NSDate *endTime;
     afc.eventStarTime = self.eventStartTimeTextField.text;
     afc.eventEndTime = self.eventEndTimeTextField.text;
     afc.eventDescription = self.eventDescriptionTextField.text;
-    afc.currentGuestList = self.currentEventGuestList;
-    
-    // Only set if we are in editing mode
-    if ([self.previousViewController isEqualToString:@"EventDetailViewController"])
-        afc.previousViewController = @"CreateEventTableViewController";
     
     self.eventNameTextField.text = nil;
     self.eventCategoryTextField.text = nil;

@@ -10,6 +10,7 @@
 
 @interface MyEventsTableViewController : UITableViewController
 
+//createNewEventButton is called when the "+" button is pressed.
 - (IBAction)createNewEventButton:(id)sender;
 
 

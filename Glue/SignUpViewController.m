@@ -58,8 +58,6 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
     [self setInputUserPassword:nil];
     [self setInputUserRetypePassword:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -75,9 +73,12 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
     
 }
 
+// createUser is called when the "Done" button is pressed.
 - (IBAction)createUser:(id)sender {
     
     UIAlertView *alert;
+    
+    // Alert user if no first name has been entered
     if (self.inputUserFirstName.text.length == 0){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Please enter your first name." 
@@ -89,6 +90,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         return;
     }
     
+    // Alert user if no last name has been entered
     else if (self.inputUserLastName.text.length == 0){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Please enter your last name." 
@@ -100,6 +102,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         return;
     }
 
+    // Alert user if no email has been entered
     else if (self.inputUserEmail.text.length == 0){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Please enter your e-mail address." 
@@ -111,6 +114,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         return;
     }
     
+    // Alert user if no password has been entered
     else if (self.inputUserPassword.text.length == 0){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Please choose a password." 
@@ -122,6 +126,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         return;
     }
 
+    // Alert user if the password has not been retyped
     else if (self.inputUserRetypePassword.text.length == 0){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Please retype your password." 
@@ -133,6 +138,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         return;
     }
     
+    // Alert user if password and retyped password do not match
     else if (![self.inputUserPassword.text isEqualToString:self.inputUserRetypePassword.text]){
         alert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                            message:@"Your password does not match up." 
@@ -153,8 +159,7 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
                          withUserPassword:inputUserPassword.text];
     
     
-    if (result == 1){
-        
+    if (result == 1)    {
         currentUser = [SingletonUser initSharedInstanceWithEmail:inputUserEmail.text 
                                                      andPassword:inputUserPassword.text];
         
@@ -186,21 +191,16 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
     
 }
 
-
 // Return 1 if successful, 2 if user already exists and 0 if createUser failed
 - (int) createUserWithName: (NSString *) userName withLastName: (NSString *) userLastName 
              withUserEmail: (NSString *) userEmail withUserPhone: (NSString *) userPhone 
           withUserPassword: (NSString *) userPassword
 {
-    NSLog(@"createUserWithName has been called");
-    
     NSString * urlString = [serverIP stringByAppendingString:@"create_user?"];
     urlString = [urlString stringByAppendingFormat:@"name=%@&lastname=%@&email=%@&phone=%@&password=%@&key=%@", inputUserFirstName.text, inputUserLastName.text, inputUserEmail.text, inputUserPhoneNumber.text, inputUserPassword.text, sharedKey];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    NSLog(@"urlString: %@", urlString);
-   
     NSURL * url = [NSURL URLWithString:urlString];
+    
     NSError *error = nil;
     NSString * urlResponse = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding 
                                                          error:&error];
@@ -225,6 +225,8 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 
 }
 
+
+//UITextFieldDelegate methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];

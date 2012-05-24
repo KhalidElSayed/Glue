@@ -11,6 +11,6 @@
 
 @interface FriendDetailViewController : UITableViewController
 
-@property (nonatomic, strong) User * currentFriend;
+@property (nonatomic, strong) User *currentFriend;
 
 @end

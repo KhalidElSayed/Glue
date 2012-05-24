@@ -4,47 +4,28 @@
 //
 //  Created by Pietro Rea on 4/26/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #import "User.h"
 
 @implementation User
 
-static NSString * serverIP = @"http://23.23.223.158/";
+//static NSString * serverIP = @"http://23.23.223.158/";
+static NSString * serverIP = @"https://www.ztbinmiyog.us/";
 static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 
-@synthesize userid, name, lastname, email, phone;
+@synthesize userid;
+@synthesize name;
+@synthesize lastname;
+@synthesize fullName;
+@synthesize email;
+@synthesize phone;
 
-/* This initialization method fills in every property */
-- (User *) initWithUserID: (int) userID
-{
-    self.userid = userID;
-    
-    self = [super init];
-    if (self){
-        
-        NSString *urlString = [serverIP stringByAppendingString:@"get_user?"];
-        urlString = [urlString stringByAppendingFormat:@"userid=%i&key=%@", userid, sharedKey];
-        NSLog(@"Get user urlString: %@", urlString);
-        
-        NSURL *url = [NSURL URLWithString:urlString];
-        NSData *json = [NSData dataWithContentsOfURL:url];
-        
-        NSDictionary *userDictionary = [NSJSONSerialization 
-                                        JSONObjectWithData:json 
-                                        options:NSJSONReadingMutableContainers 
-                                        error:nil];
-        
-        self.name = [userDictionary objectForKey:@"name"];
-        self.lastname = [userDictionary objectForKey:@"lastname"];
-        self.email = [userDictionary objectForKey:@"email"];
-    }
-    
-    return self;
-}
 
-- (User *) initWithUserID: (int) userID andUserName: (NSString *) userName 
-          andUserLastName: (NSString *) userLastName andUserEmail: (NSString *) userEmail
+/* Custom init populates User properties */
+- (User *) initWithUserID: (int) userID 
+              andUserName: (NSString *) userName 
+          andUserLastName: (NSString *) userLastName 
+             andUserEmail: (NSString *) userEmail
              andUserPhone: (NSString *) userPhone {
     
     self = [super init];
@@ -55,6 +36,9 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
         self.lastname = userLastName;
         self.email = userEmail;
         self.phone = userPhone;
+        
+        NSString *firstAndLastName = [NSString stringWithFormat:@"%@ %@", self.name, self.lastname];
+        self.fullName =  firstAndLastName;
     }
     
     return self;

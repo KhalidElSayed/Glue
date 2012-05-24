@@ -11,16 +11,12 @@
 
 @interface AddFriendsViewController : UITableViewController <InviteFriendCellDelegate, UIAlertViewDelegate>
 
-@property (nonatomic, strong) NSString * eventName;
-@property (nonatomic, strong) NSString * eventCategory;
-@property (nonatomic, strong) NSString * eventLocation;
-@property (nonatomic, strong) NSString * eventStarTime;
-@property (nonatomic, strong) NSString * eventEndTime;
-@property (nonatomic, strong) NSString * eventDescription;
-
-// For editing existing events
-@property (nonatomic, strong) NSDictionary *currentGuestList;
-@property (nonatomic, strong) NSString *previousViewController;
+@property (nonatomic, strong) NSString *eventName;
+@property (nonatomic, strong) NSString *eventCategory;
+@property (nonatomic, strong) NSString *eventLocation;
+@property (nonatomic, strong) NSString *eventStarTime;
+@property (nonatomic, strong) NSString *eventEndTime;
+@property (nonatomic, strong) NSString *eventDescription;
 
 - (IBAction)doneCreatingEvent:(id)sender;
 

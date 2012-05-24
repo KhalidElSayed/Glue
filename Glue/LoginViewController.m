@@ -4,7 +4,6 @@
 //
 //  Created by Pietro Rea on 5/3/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #import "MyEventsTableViewController.h"
 #import "LoginViewController.h"
@@ -17,6 +16,7 @@ SingletonUser *currentUser;
 @end
 
 @implementation LoginViewController
+
 @synthesize emailLoginTextField;
 @synthesize passwordLoginTextField;
 
@@ -36,20 +36,13 @@ SingletonUser *currentUser;
     self.emailLoginTextField.delegate = self;
     self.passwordLoginTextField.delegate = self;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginbackground.png"]];
-    
 }
-
-//- (void) viewWillAppear:(BOOL)animated 
-//{
-//    self.navigationController.navigationBarHidden = YES;
-//}
 
 - (void)viewDidUnload
 {
     [self setEmailLoginTextField:nil];
     [self setPasswordLoginTextField:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -57,11 +50,10 @@ SingletonUser *currentUser;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)loginButtonPressed:(id)sender {
-    
-    NSLog(@"loginButtonPressed");
-    NSString * inputEmail = self.emailLoginTextField.text;
-    NSString * inputPassword = self.passwordLoginTextField.text;
+- (IBAction)loginButtonPressed:(id)sender 
+{
+    NSString *inputEmail = self.emailLoginTextField.text;
+    NSString *inputPassword = self.passwordLoginTextField.text;
     
     // Alert user if no e-mail has been given
     if (inputEmail.length == 0){
@@ -87,7 +79,7 @@ SingletonUser *currentUser;
         return;
     }
     
-    //
+    
     currentUser = [SingletonUser initSharedInstanceWithEmail:inputEmail 
                                                  andPassword:inputPassword];
     
@@ -103,19 +95,17 @@ SingletonUser *currentUser;
     }
     
     else {
-        
         [self performSegueWithIdentifier:@"loginSuccessful" sender:self];
     }
     
-    NSLog(@"User name: %@", currentUser.name);
-    NSLog(@"User lastname: %@", currentUser.lastname);
 }
 
 - (IBAction)signupButtonPresesd:(id)sender {
-    NSLog(@"signupButtonPressed");
+    // The segue is fired from MainStoryboard.storyboard
 }
 
 
+//UITextFieldDelegate methods
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
