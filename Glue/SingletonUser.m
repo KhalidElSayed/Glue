@@ -453,26 +453,6 @@ static SingletonUser * sharedInstance = nil;
     
 }
 
-/* Makes it slow */
-- (NSString *) getUserFullName: (int) userID
-{
-    NSString * urlString = [serverIP stringByAppendingString:@"get_user?"];
-    urlString = [urlString stringByAppendingFormat:@"userid=%i&key=%@", userID, sharedKey];
-    
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    
-    NSDictionary *userDictionary = [NSJSONSerialization 
-                                    JSONObjectWithData:json 
-                                    options:NSJSONReadingMutableContainers 
-                                    error:nil];
-    
-    NSString * firstName = [userDictionary objectForKey:@"name"];
-    NSString * lastName = [userDictionary objectForKey:@"lastname"];
-    return [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-        
-}
-
 - (void) deleteFriend: (int) friendID
 {
     NSString * urlString = [serverIP stringByAppendingString:@"remove_friends?"];
@@ -493,15 +473,11 @@ static SingletonUser * sharedInstance = nil;
 
 - (NSMutableArray *) searchFriendsWithQuery: (NSString *) searchQuery
 {
-    NSLog(@"searchFriendsWithQuery was called");
     NSMutableArray * mutableArrayOfResults = [[NSMutableArray alloc] init];
     
     NSString * urlString = [serverIP stringByAppendingString:@"search_users?"];
     urlString = [urlString stringByAppendingFormat:@"q=%@&key=%@", searchQuery, sharedKey];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    NSLog(@"urlString: %@", urlString);
-    
     NSURL * url = [NSURL URLWithString:urlString];
     NSData * json = [NSData dataWithContentsOfURL:url];
     NSDictionary * friendsDictionary =      [NSJSONSerialization
@@ -527,8 +503,6 @@ static SingletonUser * sharedInstance = nil;
                                                 andUserEmail:friendEmail 
                                                 andUserPhone:friendPhone];
         
-        
-        NSLog(@"Potential friend: %@ %@", friendFirstName, friendLastName);
         [mutableArrayOfResults addObject:potentialFriend];
     }
     
@@ -551,7 +525,6 @@ static SingletonUser * sharedInstance = nil;
 
 - (int) updateResponse: (BOOL) responseBoolean forEvent: (int) eventID
 {
-    NSLog(@"updateResponse was called");
     NSString *updatedResponse;
     if (responseBoolean == YES){
         updatedResponse = @"yes";
@@ -604,17 +577,14 @@ static SingletonUser * sharedInstance = nil;
                                                          error:&error];
     
     if ([urlResponse isEqualToString:@"yes"]){
-        NSLog(@"Password has been changed successfully");
         return 1;
     }
     
     else if ([urlResponse isEqualToString:@"User already exists"]){
-        NSLog(@"Error: User already exists");
-        return 2;
+         return 2;
     }
     
     else {
-        NSLog(@"Error: Password could not be changed");
         return 0;
     }
     
@@ -627,8 +597,6 @@ static SingletonUser * sharedInstance = nil;
     NSString * urlString = [serverIP stringByAppendingString:@"update_user?"];
     urlString = [urlString stringByAppendingFormat:@"name=%@&lastname=%@&email=%@&phone=%@&token=%@", userFirstName, userLastName, userEmail, userPhone, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"urlString: %@", urlString);
-    
     NSURL * url = [NSURL URLWithString:urlString];
     NSError *error = nil;
     NSString * urlResponse = [NSString stringWithContentsOfURL:url 
@@ -653,7 +621,13 @@ static SingletonUser * sharedInstance = nil;
     return 0;
 }
 
-- (int) updateEventWithEventID: (int) eventID andNewEventName: (NSString *) eventName andNewEventCategory: (NSString *) eventCategory andNewEventLocation: eventLocation andNewEventStartTime: (NSString *) eventStartTime andNewEventEndTime: (NSString *) eventEndTime andNewEventDescription: (NSString *) eventDescriton
+- (int) updateEventWithEventID: (int) eventID 
+               andNewEventName: (NSString *) eventName 
+           andNewEventCategory: (NSString *) eventCategory 
+           andNewEventLocation: (NSString *) eventLocation 
+          andNewEventStartTime: (NSString *) eventStartTime 
+            andNewEventEndTime: (NSString *) eventEndTime 
+        andNewEventDescription: (NSString *) eventDescriton
 {
 // Need to implement
     return 1;

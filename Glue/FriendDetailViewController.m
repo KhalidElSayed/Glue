@@ -40,19 +40,11 @@ NSMutableArray *myEventsWithFriend;
     myEventsWithFriend = [currentUser getAllEventsWithFriend:currentFriend.userid];
     
     [self addDeleteFriendButton];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -77,7 +69,6 @@ NSMutableArray *myEventsWithFriend;
 
 - (void) deleteThisFriend
 {
-    NSLog(@"deleteThisFriend has been called");
     
     UIAlertView *confirmAlert = [[UIAlertView alloc] 
                                  initWithTitle:@"Confirmation" 
@@ -89,14 +80,13 @@ NSMutableArray *myEventsWithFriend;
     [confirmAlert show];
 }
 
+// UIAlertViewDelegate methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex 
 {
     if (buttonIndex == 0){
         [currentUser deleteFriend:currentFriend.userid];
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
-    
 }
 
 #pragma mark - Table view data source
@@ -127,7 +117,7 @@ NSMutableArray *myEventsWithFriend;
     //Section 1 contains Friends Details
     if (indexPath.section == 0 ) {
         
-        static NSString *CellIdentifier = @"Cell";
+        static NSString *CellIdentifier = @"Cell1";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil){
@@ -136,13 +126,9 @@ NSMutableArray *myEventsWithFriend;
                     reuseIdentifier:CellIdentifier];
         }
         
-        NSString * fullName = currentFriend.name;
-        fullName = [fullName stringByAppendingString:@" "];
-        fullName = [fullName stringByAppendingString:currentFriend.lastname];
-        
         if (indexPath.row == 0) {
             cell.textLabel.text = @"Name";
-            cell.detailTextLabel.text = fullName;
+            cell.detailTextLabel.text = currentFriend.fullName;
         }
         else if (indexPath.row == 1) {
             cell.textLabel.text = @"E-mail";
@@ -160,7 +146,7 @@ NSMutableArray *myEventsWithFriend;
     //Section 2 contains events that this friend has invited me to
     else {
         
-        static NSString *CellIdentifier = @"Cell";
+        static NSString *CellIdentifier = @"Cell2";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         if (cell == nil){

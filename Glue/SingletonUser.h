@@ -71,8 +71,6 @@
 
 - (NSMutableArray *) getAllEventsWithFriend: (int) friendID;
 
-- (NSString *) getUserFullName: (int) userID;
-
 - (NSMutableDictionary *) getGuests: (int) eventID;
 
 - (BOOL) amIGoingToEvent: (int) eventID;
