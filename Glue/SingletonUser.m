@@ -169,7 +169,8 @@ static SingletonUser * sharedInstance = nil;
         NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"]
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]  
-                                                     andHostID:[[event objectForKey:@"hostid"] intValue]
+                                                     andHostID:[[event objectForKey:@"hostid"] intValue] 
+                                          andEventHostFullName: self.fullName
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]
@@ -206,7 +207,8 @@ static SingletonUser * sharedInstance = nil;
         NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"]
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]  
-                                                     andHostID:[[event objectForKey:@"hostid"] intValue]
+                                                     andHostID:[[event objectForKey:@"hostid"] intValue] 
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]
@@ -242,7 +244,8 @@ static SingletonUser * sharedInstance = nil;
         NSDictionary *event = [invitationsDictionary objectForKey:[invitationsDictionaryKeys objectAtIndex:i]];
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"] 
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]
-                                                     andHostID:[[event objectForKey:@"hostid"] intValue]
+                                                     andHostID:[[event objectForKey:@"hostid"] intValue] 
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]
@@ -250,8 +253,6 @@ static SingletonUser * sharedInstance = nil;
                                             andEventDesription:[event objectForKey:@"description"]
                                              andEventGuestList:[event objectForKey:@"guests"]];
         
-        
-        NSLog(@"Full host name is %@", [event objectForKey:@"hostname"]);
         [mutableArrayOfInvitations addObject:currentEvent];
     }
     
@@ -280,6 +281,7 @@ static SingletonUser * sharedInstance = nil;
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"] 
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]
                                                      andHostID:[[event objectForKey:@"hostid"] intValue]
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]
@@ -315,6 +317,7 @@ static SingletonUser * sharedInstance = nil;
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"]
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]  
                                                      andHostID:[[event objectForKey:@"hostid"] intValue]
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]
@@ -343,6 +346,7 @@ static SingletonUser * sharedInstance = nil;
         Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"] 
                                                     andEventID:[[event objectForKey:@"eventid"] intValue]
                                                      andHostID:[[event objectForKey:@"hostid"] intValue]
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
                                               andEventCategory:[event objectForKey:@"category"]
                                               andEventLocation:[event objectForKey:@"location"]
                                               andEventStarTime:[event objectForKey:@"starttime"]

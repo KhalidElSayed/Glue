@@ -103,7 +103,8 @@ NSMutableArray* mutableArrayOfInvitations;
     
     Event *myEvent = [mutableArrayOfInvitations objectAtIndex:indexPath.row];
     cell.eventName.text = myEvent.eventName;
-    cell.eventHost.text = [currentUser getUserFullName:myEvent.eventHostID];
+    cell.eventHost.text = myEvent.eventHostFullName;
+    //cell.eventHost.text = [currentUser getUserFullName:myEvent.eventHostID];
     cell.eventTime.text = myEvent.eventStartTime;
     
     return cell;

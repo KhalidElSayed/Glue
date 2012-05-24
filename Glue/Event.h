@@ -12,18 +12,20 @@
 
 @property (nonatomic) int eventID;
 @property (nonatomic) int eventHostID;
-@property (nonatomic, strong) NSString * eventName;
-@property (nonatomic, strong) NSString * eventCategory;
-@property (nonatomic, strong) NSString * eventLocation;
-@property (nonatomic, strong) NSString * eventStartTime;
-@property (nonatomic, strong) NSString * eventEndTime;
-@property (nonatomic, strong) NSString * eventDescription;
-@property (nonatomic, strong) NSDictionary * eventGuests;
+@property (nonatomic, strong) NSString *eventHostFullName;
+@property (nonatomic, strong) NSString *eventName;
+@property (nonatomic, strong) NSString *eventCategory;
+@property (nonatomic, strong) NSString *eventLocation;
+@property (nonatomic, strong) NSString *eventStartTime;
+@property (nonatomic, strong) NSString *eventEndTime;
+@property (nonatomic, strong) NSString *eventDescription;
+@property (nonatomic, strong) NSDictionary *eventGuests;
 
 /* Custom init populates Event properties */
 - (Event *) initWithEventName: (NSString *) name 
                    andEventID: (int) eventid 
                     andHostID: (int) hostid 
+         andEventHostFullName: (NSString *) hostname
              andEventCategory: (NSString *) category 
              andEventLocation: (NSString *) location
              andEventStarTime: (NSString *) starttime 

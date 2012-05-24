@@ -12,6 +12,7 @@
 
 @synthesize eventID;
 @synthesize eventHostID;
+@synthesize eventHostFullName;
 @synthesize eventName;
 @synthesize eventCategory;
 @synthesize eventLocation;
@@ -24,7 +25,8 @@
 /* Custom init populates Event properties */
 - (Event *) initWithEventName: (NSString *) name 
                    andEventID: (int) eventid 
-                    andHostID: (int) hostid 
+                    andHostID: (int) hostid
+         andEventHostFullName: (NSString *) hostname
              andEventCategory: (NSString *) category 
              andEventLocation: (NSString *) location
              andEventStarTime: (NSString *) starttime 
@@ -38,6 +40,7 @@
         self.eventName = name;
         self.eventID = eventid;
         self.eventHostID = hostid;
+        self.eventHostFullName = hostname;
         self.eventCategory = category;
         self.eventLocation = location;
         self.eventStartTime = starttime;
