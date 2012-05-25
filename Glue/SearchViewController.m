@@ -72,6 +72,7 @@ NSMutableArray *mutableArrayOfResults;
     cell.detailTextLabel.text = potentialFriend.email;
     
     // To implement: if a search result is already your friend, set the checkmark here.
+    cell.accessoryType =  UITableViewCellAccessoryNone;
     return cell;
 }
 
