@@ -12,8 +12,8 @@
 
 SingletonUser *currentUser;
 //static NSString * serverIP = @"http://23.23.223.158/";
-static NSString * serverIP = @"https://www.ztbinmiyog.us/";
-static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
+static NSString *serverIP = @"https://www.ztbinmiyog.us/";
+static NSString *sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 
 @interface SignUpViewController ()
 
@@ -196,13 +196,13 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
              withUserEmail: (NSString *) userEmail withUserPhone: (NSString *) userPhone 
           withUserPassword: (NSString *) userPassword
 {
-    NSString * urlString = [serverIP stringByAppendingString:@"create_user?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"create_user?"];
     urlString = [urlString stringByAppendingFormat:@"name=%@&lastname=%@&email=%@&phone=%@&password=%@&key=%@", inputUserFirstName.text, inputUserLastName.text, inputUserEmail.text, inputUserPhoneNumber.text, inputUserPassword.text, sharedKey];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     
     NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding 
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding 
                                                          error:&error];
     
     if ([urlResponse isEqualToString:@"yes"]){

@@ -10,7 +10,7 @@
 
 @interface CreateEventTableViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
-// These properties are only used for Event Editing
+// These properties are only used for Event Editing (not yet implemented)
 @property (weak, nonatomic) NSString *eventName;
 @property (weak, nonatomic) NSString *eventCategory;
 @property (weak, nonatomic) NSString *eventLocation;

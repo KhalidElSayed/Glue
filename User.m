@@ -10,8 +10,8 @@
 @implementation User
 
 //static NSString * serverIP = @"http://23.23.223.158/";
-static NSString * serverIP = @"https://www.ztbinmiyog.us/";
-static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
+static NSString *serverIP = @"https://www.ztbinmiyog.us/";
+static NSString *sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 
 @synthesize userid;
 @synthesize name;
@@ -19,7 +19,6 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 @synthesize fullName;
 @synthesize email;
 @synthesize phone;
-
 
 /* Custom init populates User properties */
 - (User *) initWithUserID: (int) userID 

@@ -1,0 +1,8 @@
+* Be able to update event + guest list after it has been created
+* Should be able to go back to event information from friend details listing of event
+* Should not be able to add yourself as a friend
+* Should be able to check and uncheck to add/remove friend in Search mode
+* Better authentication (hashing and salting)
+* Update Stream only when it has changed
+* Integration with Facebook
+* Integration with SMS for people that don't have the app

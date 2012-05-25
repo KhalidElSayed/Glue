@@ -11,8 +11,8 @@
 
 @interface StreamCell : UITableViewCell
 
-@property (nonatomic, strong) IBOutlet UILabel * eventName;
-@property (nonatomic, strong) IBOutlet UILabel * eventHost;
-@property (nonatomic, strong) IBOutlet UILabel * eventTime;
+@property (nonatomic, strong) IBOutlet UILabel *eventName;
+@property (nonatomic, strong) IBOutlet UILabel *eventHost;
+@property (nonatomic, strong) IBOutlet UILabel *eventTime;
 
 @end

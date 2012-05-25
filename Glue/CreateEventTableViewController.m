@@ -44,7 +44,7 @@ NSDate *endTime;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {       
-    AddFriendsViewController * afc = [segue destinationViewController];
+    AddFriendsViewController *afc = [segue destinationViewController];
     afc.eventName = self.eventNameTextField.text;
     afc.eventCategory = self.eventCategoryTextField.text;
     afc.eventLocation = self.eventLocationTextField.text;
@@ -101,7 +101,6 @@ NSDate *endTime;
     if (eventDescription != nil){
         self.eventDescriptionTextField.text = self.eventDescription;
     }
-    
     
     self.eventNameTextField.delegate = self;
     self.eventCategoryTextField.delegate = self;
@@ -180,35 +179,30 @@ NSDate *endTime;
 
 - (void) createInviteFriendsButton
 {
-    UIButton * InviteFriendsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    UIView * buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
+    UIButton *InviteFriendsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
     [InviteFriendsButton addTarget:self action:@selector(inviteFriendsToThisEvent) forControlEvents:UIControlEventTouchDown];
     [InviteFriendsButton setTitle:@"Invite Friends" forState:UIControlStateNormal];
     InviteFriendsButton.frame = CGRectMake(10.0, 0.0, self.tableView.frame.size.width - 20, 40.0);
     [buttonView addSubview:InviteFriendsButton];
     self.tableView.tableFooterView = buttonView;
-    
-//    [InviteFriendsButton setBackgroundImage:[[UIImage imageNamed:@"redbuttonnew.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
-//    
-//    [deleteEventButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
 }
 
+// Under construction
 - (void) createUpdateInvitationsButton
 {
-    UIButton * updateInvitationsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    UIView * buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
+    UIButton *updateInvitationsButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
     [updateInvitationsButton addTarget:self action:@selector(updateInvitationsOfThisEvent) forControlEvents:UIControlEventTouchDown];
     [updateInvitationsButton setTitle:@"Update Invitations" forState:UIControlStateNormal];
     updateInvitationsButton.frame = CGRectMake(10.0, 0.0, self.tableView.frame.size.width - 20, 40.0);
     [buttonView addSubview:updateInvitationsButton];
     self.tableView.tableFooterView = buttonView;
-    
 }
 
+// Under construction
 - (void) inviteFriendsToThisEvent
 {
-
     [self.eventNameTextField resignFirstResponder];
     [self.eventCategoryTextField resignFirstResponder];
     [self.eventLocationTextField resignFirstResponder];
@@ -291,6 +285,7 @@ NSDate *endTime;
     
 }
 
+// Under construction
 - (void) updateInvitationsOfThisEvent
 {
     [self.eventNameTextField resignFirstResponder];

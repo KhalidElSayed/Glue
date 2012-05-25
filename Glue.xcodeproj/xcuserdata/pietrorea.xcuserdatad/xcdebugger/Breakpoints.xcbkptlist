@@ -86,11 +86,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/SingletonUser.m"
-         timestampString = "358711273.085422"
+         timestampString = "359659096.206101"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
+         startingLineNumber = "275"
+         endingLineNumber = "275"
          landmarkName = "-getMyEvents"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Glue/SingletonUser.m"
-         timestampString = "359578603.635898"
+         timestampString = "359659096.206101"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "154"
-         endingLineNumber = "154"
+         startingLineNumber = "264"
+         endingLineNumber = "264"
          landmarkName = "-getMyEvents"
          landmarkType = "5">
       </FileBreakpoint>

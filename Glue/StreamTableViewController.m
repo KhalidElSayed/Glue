@@ -12,8 +12,8 @@
 #import "StreamCell.h"
 #import "Event.h"
 
-SingletonUser* currentUser;
-NSMutableArray* mutableArrayOfInvitations;
+SingletonUser *currentUser;
+NSMutableArray *mutableArrayOfInvitations;
 
 @interface StreamTableViewController ()
 
@@ -30,7 +30,7 @@ NSMutableArray* mutableArrayOfInvitations;
 {    
     EventDetailViewController *vc = [segue destinationViewController];
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
-    StreamCell * selectedCell = (StreamCell *) [self.tableView cellForRowAtIndexPath:path];
+    StreamCell *selectedCell = (StreamCell *) [self.tableView cellForRowAtIndexPath:path];
     Event *selectedEvent = [mutableArrayOfInvitations objectAtIndex:path.row];
     
     vc.eventID  = selectedEvent.eventID;
@@ -94,7 +94,7 @@ NSMutableArray* mutableArrayOfInvitations;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    StreamCell * cell;
+    StreamCell *cell;
     cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (!cell) {

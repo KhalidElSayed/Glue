@@ -33,8 +33,16 @@ static NSString * sharedKey = @"okXRDgXqnDfyYK11nARRIdUy5xmuGsJi00DQuyzaGYY";
 @synthesize shouldUpdateMyEvents;
 @synthesize shouldUpdateMyFriends;
 
-static SingletonUser * sharedInstance = nil;
+static SingletonUser *sharedInstance = nil;
 
+
+// Returns SingletonUser instance that represents user currently logged in.
++ (SingletonUser *) sharedInstance
+{
+    return sharedInstance;
+}
+
+// This method is called in SignupViewController.m to create a new user.
 + (SingletonUser *) initSharedInstanceWithEmail: (NSString *) userEmail 
                                     andPassword: (NSString *) userPassword {
     
@@ -45,18 +53,12 @@ static SingletonUser * sharedInstance = nil;
     return sharedInstance;
 }
 
-+ (SingletonUser *) sharedInstance
-{
-    return sharedInstance;
-}
-
-/* Does not work with incorrect user or password*/
-/* Fills in token, name, lastname, e-mail - leaves everything else nil */
+// Private method
 - (SingletonUser *) initWithUserEmail: (NSString *) userEmail andUserPassword: (NSString *) userPassword
 {
-    NSString * urlString = [serverIP stringByAppendingString:@"login?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"login?"];
     urlString = [urlString stringByAppendingFormat:@"email=%@&password=%@", userEmail, userPassword];
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     NSError *error = nil;
     
     self.token = [NSString stringWithContentsOfURL:url 
@@ -95,15 +97,106 @@ static SingletonUser * sharedInstance = nil;
     return self;
 }
 
+// Creates event. Returns the event ID of the new event.
+- (int) createEvent: (NSString *) eventName ofCategory: (NSString *) eventCategory 
+         inLocation: (NSString *) eventLocation 
+   withStartingTime: (NSString *) eventStartTime 
+     withEndingTime: (NSString *) eventEndingTime 
+    withDescription: (NSString *) eventDescription 
+{
+    NSString *urlString = [serverIP stringByAppendingString:@"create_event?"];
+    urlString = [urlString stringByAppendingFormat:@"name=%@&category=%@&location=%@&starttime=%@&endtime=%@&description=%@&token=%@", eventName, eventCategory, eventLocation, eventStartTime, eventEndingTime, eventDescription, self.token];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    
+    NSDictionary *eventDictionary = [NSJSONSerialization 
+                                     JSONObjectWithData:json 
+                                     options:NSJSONReadingMutableContainers 
+                                     error:nil];
+    
+    int eventID = [[eventDictionary objectForKey:@"eventid"] intValue];
+    return eventID;
+}
+
+// Deletes event with eventID.
+- (void) deleteEvent: (int) eventID{    
+    NSString *urlString = [serverIP stringByAppendingString:@"remove_event?"];
+    urlString = [urlString stringByAppendingFormat:@"eventid=%i&token=%@", eventID, self.token];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSError *error = nil;
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
+                                                      encoding:NSUTF8StringEncoding 
+                                                         error:&error];
+    
+    // Change return value to an integer & delete NSLog
+    NSLog(@"Server response: %@", urlResponse);
+}
+
+// Adds guest with guestID to event with eventID
+- (void) addGuest: (int) guestID inEvent: (int) eventID
+{
+    NSString *urlString = [serverIP stringByAppendingString:@"add_guests?"];
+    urlString = [urlString stringByAppendingFormat:@"eventid=%i&token=%@&guestids=%i", eventID, self.token, guestID];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSError *error = nil;
+    
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
+                                                      encoding:NSUTF8StringEncoding 
+                                                         error:&error];
+    
+    // Change return value to an integer & delete NSLog
+    NSLog(@"Server response: %@", urlResponse);
+}
+
+// Returns NSMutableArray of User objects for users that matched searchQuery
+- (NSMutableArray *) searchFriendsWithQuery: (NSString *) searchQuery
+{
+    NSMutableArray * mutableArrayOfResults = [[NSMutableArray alloc] init];
+    
+    NSString *urlString = [serverIP stringByAppendingString:@"search_users?"];
+    urlString = [urlString stringByAppendingFormat:@"q=%@&key=%@", searchQuery, sharedKey];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *friendsDictionary =      [NSJSONSerialization
+                                             JSONObjectWithData:json
+                                             options:NSJSONReadingMutableContainers 
+                                             error:nil];
+    
+    NSArray * friendsDictionaryKeys = [friendsDictionary allKeys];
+    for (int i = 0; i < friendsDictionary.count; i++) {
+        
+        NSDictionary *friend = [friendsDictionary objectForKey:[friendsDictionaryKeys objectAtIndex:i]];
+        int friendUserID = [[friend objectForKey:@"userid"] intValue];
+        NSString *friendFirstName = [friend objectForKey:@"name"];
+        NSString *friendLastName = [friend objectForKey:@"lastname"];
+        NSString *friendEmail = [friend objectForKey:@"email"];
+        NSString *friendPhone = [friend objectForKey:@"phone"];
+        
+        User *potentialFriend = [[User alloc] initWithUserID:friendUserID 
+                                                 andUserName:friendFirstName 
+                                             andUserLastName:friendLastName 
+                                                andUserEmail:friendEmail 
+                                                andUserPhone:friendPhone];
+        
+        [mutableArrayOfResults addObject:potentialFriend];
+    }
+    return mutableArrayOfResults;
+}
+
+// Add friend with friendID to the current user. Returns 1 if successful, 0 otherwise.
 - (int) addFriend: (int) friendID 
 {
-    NSString * urlString = [serverIP stringByAppendingString:@"add_friends?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"add_friends?"];
     urlString = [urlString stringByAppendingFormat:@"friendids=%i&token=%@", friendID, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     
     NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
                                                       encoding:NSUTF8StringEncoding 
                                                          error:&error];
     
@@ -118,22 +211,39 @@ static SingletonUser * sharedInstance = nil;
     return 0;
 }
 
+// Delete friend with friendID from the current user.
+- (void) deleteFriend: (int) friendID
+{
+    NSString *urlString = [serverIP stringByAppendingString:@"remove_friends?"];
+    urlString = [urlString stringByAppendingFormat:@"token=%@&friendids=%i", self.token, friendID];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSError *error = nil;
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
+                                                      encoding:NSUTF8StringEncoding 
+                                                         error:&error];
+    self.shouldUpdateMyFriends = YES;
+    
+    // Change return value to an integer & delete NSLog
+    NSLog(@"Server response: %@", urlResponse);
+}
+
+// Returns NSMutableArray populated with the current user's friends (User objects)
 - (NSMutableArray *) getFriends
 {
-    NSMutableArray * mutableArrayOfFriends = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableArrayOfFriends = [[NSMutableArray alloc] init];
     
-    NSString * urlString = [serverIP stringByAppendingString:@"get_friends?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"get_friends?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@", self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * friendsDictionary = [NSJSONSerialization
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *friendsDictionary = [NSJSONSerialization
                                        JSONObjectWithData:json
                                        options:NSJSONReadingMutableContainers 
                                        error:nil];
     
-    
-    NSArray * friendsDictionaryKeys = [friendsDictionary allKeys];
+    NSArray *friendsDictionaryKeys = [friendsDictionary allKeys];
     for (int i = 0; i < friendsDictionary.count; i++) {
 
         NSDictionary *friend = [friendsDictionary objectForKey:[friendsDictionaryKeys objectAtIndex:i]];
@@ -145,25 +255,25 @@ static SingletonUser * sharedInstance = nil;
         
         [mutableArrayOfFriends addObject:currentFriend];
     }
-    
     return mutableArrayOfFriends;
 }
 
+// Returns NSMutableArray populated with the Events the current user has created
 - (NSMutableArray *) getMyEvents
 {
-    NSMutableArray * mutableArrayOfEvents = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableArrayOfEvents = [[NSMutableArray alloc] init];
     
-    NSString * urlString = [serverIP stringByAppendingString:@"get_my_events?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"get_my_events?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@", self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];    
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * eventsDictionary = [NSJSONSerialization
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *eventsDictionary = [NSJSONSerialization
                       JSONObjectWithData:json
                       options:NSJSONReadingMutableContainers 
                       error:nil];
     
-    NSArray * eventDictionaryKeys = [eventsDictionary allKeys];
+    NSArray *eventDictionaryKeys = [eventsDictionary allKeys];
     for (int i = 0; i < eventsDictionary.count; i++) {
         
         NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
@@ -181,64 +291,27 @@ static SingletonUser * sharedInstance = nil;
         [mutableArrayOfEvents addObject:currentEvent];
     }
     
+    // Sort NSMutableArray by eventID (latest events appear first) before returning
     NSMutableArray *sortedEventsArray = (NSMutableArray *)[mutableArrayOfEvents sortedArrayUsingSelector:@selector(compare:)];
     return sortedEventsArray;
 }
 
-- (NSMutableArray *) getMyEventsWithGuest: (int) guestID
-{
-    NSMutableArray * mutableArrayOfEvents = [[NSMutableArray alloc] init];
-    
-    NSString * urlString = [serverIP stringByAppendingString:@"get_my_events?"];
-    urlString = [urlString stringByAppendingFormat:@"token=%@&guestid=%i", self.token, guestID];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * eventsDictionary = [NSJSONSerialization
-                                       JSONObjectWithData:json
-                                       options:NSJSONReadingMutableContainers 
-                                       error:nil];
-    
-    
-    NSArray * eventDictionaryKeys = [eventsDictionary allKeys];
-    for (int i = 0; i < eventsDictionary.count; i++) {
-        
-        NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
-        Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"]
-                                                    andEventID:[[event objectForKey:@"eventid"] intValue]  
-                                                     andHostID:[[event objectForKey:@"hostid"] intValue] 
-                                          andEventHostFullName:[event objectForKey:@"hostname"]
-                                              andEventCategory:[event objectForKey:@"category"]
-                                              andEventLocation:[event objectForKey:@"location"]
-                                              andEventStarTime:[event objectForKey:@"starttime"]
-                                               andEventEndTime:[event objectForKey:@"endtime"]
-                                            andEventDesription:[event objectForKey:@"description"]
-                                             andEventGuestList:[event objectForKey:@"guests"]];
-        
-        [mutableArrayOfEvents addObject:currentEvent];
-    }
-    
-    return mutableArrayOfEvents;
-}
-
-
+// Returns NSMutableArray popualted with Events the current user has been invited to
 - (NSMutableArray *) getInvitations
 {
-    NSMutableArray * mutableArrayOfInvitations = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableArrayOfInvitations = [[NSMutableArray alloc] init];
     
-    NSString * urlString = [serverIP stringByAppendingString:@"get_my_invitations?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"get_my_invitations?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@", self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * invitationsDictionary = [NSJSONSerialization
-                                       JSONObjectWithData:json
-                                       options:NSJSONReadingMutableContainers 
-                                       error:nil];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *invitationsDictionary = [NSJSONSerialization
+                                           JSONObjectWithData:json
+                                           options:NSJSONReadingMutableContainers 
+                                           error:nil];
     
-    
-    NSArray * invitationsDictionaryKeys = [invitationsDictionary allKeys];
+    NSArray *invitationsDictionaryKeys = [invitationsDictionary allKeys];
     for (int i = 0; i < invitationsDictionary.count; i++) {
         
         NSDictionary *event = [invitationsDictionary objectForKey:[invitationsDictionaryKeys objectAtIndex:i]];
@@ -256,25 +329,63 @@ static SingletonUser * sharedInstance = nil;
         [mutableArrayOfInvitations addObject:currentEvent];
     }
     
+    // Sort NSMutableArray by eventID (latest events appear first) before returning
     NSMutableArray *sortedInvitationsArray = (NSMutableArray *)[mutableArrayOfInvitations sortedArrayUsingSelector:@selector(compare:)];
     return sortedInvitationsArray;
 }
 
+// Returns NSMutableArray with Events current user has created and invited friend w/ userid guestID
+- (NSMutableArray *) getMyEventsWithGuest: (int) guestID
+{
+    NSMutableArray *mutableArrayOfEvents = [[NSMutableArray alloc] init];
+    
+    NSString *urlString = [serverIP stringByAppendingString:@"get_my_events?"];
+    urlString = [urlString stringByAppendingFormat:@"token=%@&guestid=%i", self.token, guestID];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *eventsDictionary = [NSJSONSerialization
+                                       JSONObjectWithData:json
+                                       options:NSJSONReadingMutableContainers 
+                                       error:nil];
+    
+    NSArray *eventDictionaryKeys = [eventsDictionary allKeys];
+    for (int i = 0; i < eventsDictionary.count; i++) {
+        
+        NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
+        Event *currentEvent = [[Event alloc] initWithEventName:[event objectForKey:@"name"]
+                                                    andEventID:[[event objectForKey:@"eventid"] intValue]  
+                                                     andHostID:[[event objectForKey:@"hostid"] intValue] 
+                                          andEventHostFullName:[event objectForKey:@"hostname"]
+                                              andEventCategory:[event objectForKey:@"category"]
+                                              andEventLocation:[event objectForKey:@"location"]
+                                              andEventStarTime:[event objectForKey:@"starttime"]
+                                               andEventEndTime:[event objectForKey:@"endtime"]
+                                            andEventDesription:[event objectForKey:@"description"]
+                                             andEventGuestList:[event objectForKey:@"guests"]];
+        
+        [mutableArrayOfEvents addObject:currentEvent];
+    }
+    return mutableArrayOfEvents;
+}
+
+// Returns NSMutableArray with Events to which the current user has been invited to by friend w/ userid hostID
 - (NSMutableArray *) getInvitationsFromHost: (int) hostID
 {
-    NSMutableArray * mutableArrayOfInvitations = [[NSMutableArray alloc] init];
+    NSMutableArray *mutableArrayOfInvitations = [[NSMutableArray alloc] init];
     
-    NSString * urlString = [serverIP stringByAppendingString:@"get_my_invitations?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"get_my_invitations?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@&hostid=%i", self.token, hostID];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
     NSDictionary * invitationsDictionary = [NSJSONSerialization
                                             JSONObjectWithData:json
                                             options:NSJSONReadingMutableContainers 
                                             error:nil];
     
-    NSArray * invitationsDictionaryKeys = [invitationsDictionary allKeys];
+    NSArray *invitationsDictionaryKeys = [invitationsDictionary allKeys];
     for (int i = 0; i < invitationsDictionary.count; i++) {
         
         NSDictionary *event = [invitationsDictionary objectForKey:[invitationsDictionaryKeys objectAtIndex:i]];
@@ -294,23 +405,23 @@ static SingletonUser * sharedInstance = nil;
     return mutableArrayOfInvitations;
 }
 
-//Returns mutable array with all events + invitations from friend
-- (NSMutableArray *) getAllEventsWithFriend: (int) friendID{
+// Returns all Events that contain both the current User and friend w/ userid friendID
+- (NSMutableArray *) getAllEventsWithFriend: (int) friendID
+{
+    NSMutableArray *mutableArrayOfEvents = [[NSMutableArray alloc] init];
     
-    NSMutableArray * mutableArrayOfEvents = [[NSMutableArray alloc] init];
-    
-    NSString * urlString = [serverIP stringByAppendingString:@"get_my_events?"];
+    // Step 1: Get events I have created with friendID
+    NSString *urlString = [serverIP stringByAppendingString:@"get_my_events?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@&guestid=%i", self.token, friendID];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * eventsDictionary = [NSJSONSerialization
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *eventsDictionary = [NSJSONSerialization
                                        JSONObjectWithData:json
                                        options:NSJSONReadingMutableContainers 
                                        error:nil];
     
-    
-    NSArray * eventDictionaryKeys = [eventsDictionary allKeys];
+    NSArray *eventDictionaryKeys = [eventsDictionary allKeys];
     for (int i = 0; i < eventsDictionary.count; i++) {
         
         NSDictionary *event = [eventsDictionary objectForKey:[eventDictionaryKeys objectAtIndex:i]];
@@ -328,18 +439,18 @@ static SingletonUser * sharedInstance = nil;
         [mutableArrayOfEvents addObject:currentEvent];
     }
     
-    
+    // Step 2: Get events I have been invited to by friendID
     urlString = [serverIP stringByAppendingString:@"get_my_invitations?"];
     urlString = [urlString stringByAppendingFormat:@"token=%@&hostid=%i", self.token, friendID];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     url = [NSURL URLWithString:urlString];
     json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * invitationsDictionary = [NSJSONSerialization
+    NSDictionary *invitationsDictionary = [NSJSONSerialization
                                             JSONObjectWithData:json
                                             options:NSJSONReadingMutableContainers 
                                             error:nil];
     
-    NSArray * invitationsDictionaryKeys = [invitationsDictionary allKeys];
+    NSArray *invitationsDictionaryKeys = [invitationsDictionary allKeys];
     for (int i = 0; i < invitationsDictionary.count; i++) {
         
         NSDictionary *event = [invitationsDictionary objectForKey:[invitationsDictionaryKeys objectAtIndex:i]];
@@ -354,80 +465,27 @@ static SingletonUser * sharedInstance = nil;
                                             andEventDesription:[event objectForKey:@"description"]
                                              andEventGuestList:[event objectForKey:@"guests"]];
         
-        
         [mutableArrayOfEvents addObject:currentEvent];
     }
-    
     return mutableArrayOfEvents;
 }
 
-- (int) createEvent: (NSString *) eventName ofCategory: (NSString *) eventCategory 
-         inLocation: (NSString *) eventLocation 
-   withStartingTime: (NSString *) eventStartTime 
-     withEndingTime: (NSString *) eventEndingTime 
-    withDescription: (NSString *) eventDescription 
-{
-    NSString * urlString = [serverIP stringByAppendingString:@"create_event?"];
-    urlString = [urlString stringByAppendingFormat:@"name=%@&category=%@&location=%@&starttime=%@&endtime=%@&description=%@&token=%@", eventName, eventCategory, eventLocation, eventStartTime, eventEndingTime, eventDescription, self.token];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    
-    NSDictionary *eventDictionary = [NSJSONSerialization 
-                                    JSONObjectWithData:json 
-                                    options:NSJSONReadingMutableContainers 
-                                    error:nil];
-    
-    int eventID = [[eventDictionary objectForKey:@"eventid"] intValue];
-    return eventID;
-}
-
-- (void) deleteEvent: (int) eventID{
-    
-    NSString * urlString = [serverIP stringByAppendingString:@"remove_event?"];
-    urlString = [urlString stringByAppendingFormat:@"eventid=%i&token=%@", eventID, self.token];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
-                                                      encoding:NSUTF8StringEncoding 
-                                                         error:&error];
-    
-    NSLog(@"Server response: %@", urlResponse);
-}
-
-- (void) addGuest: (int) guestID inEvent: (int) eventID
-{
-    NSString * urlString = [serverIP stringByAppendingString:@"add_guests?"];
-    urlString = [urlString stringByAppendingFormat:@"eventid=%i&token=%@&guestids=%i", eventID, self.token, guestID];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSError *error = nil;
-    
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
-                                                      encoding:NSUTF8StringEncoding 
-                                                         error:&error];
-    
-    NSLog(@"Server response: %@", urlResponse);
-}
-
-
-/* The key is the guest's full name and the value is "ATTENDING" or "NOT ATTENDING" */
+// Returns (unsorted) NSMutableDictionary with guests for Event w/ eventID
 - (NSMutableDictionary *) getGuests: (int) eventID
 {
-    NSMutableDictionary * guestsDictionaryResult = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *guestsDictionaryResult = [[NSMutableDictionary alloc] init];
     
-    NSString * urlString = [serverIP stringByAppendingString:@"get_guests?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"get_guests?"];
     urlString = [urlString stringByAppendingFormat:@"eventid=%i&token=%@", eventID, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * guestsDictionary = [NSJSONSerialization
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *json = [NSData dataWithContentsOfURL:url];
+    NSDictionary *guestsDictionary = [NSJSONSerialization
                                             JSONObjectWithData:json
                                             options:NSJSONReadingMutableContainers 
                                             error:nil];
     
-    NSArray * guestsDictionaryKeys = [guestsDictionary allKeys];
+    NSArray *guestsDictionaryKeys = [guestsDictionary allKeys];
     for (int i = 0; i < guestsDictionary.count; i++) {
         
         NSDictionary *userInfo = [guestsDictionary objectForKey:[guestsDictionaryKeys objectAtIndex:i]];
@@ -446,68 +504,8 @@ static SingletonUser * sharedInstance = nil;
         else if ([userResponse isEqualToString:@"no"]){
             [guestsDictionaryResult setObject:@"NOT ATTENDING" forKey:userFullName];
         }
-        
     }
-    
     return guestsDictionaryResult;
-    
-}
-
-- (void) deleteFriend: (int) friendID
-{
-    NSString * urlString = [serverIP stringByAppendingString:@"remove_friends?"];
-    urlString = [urlString stringByAppendingFormat:@"token=%@&friendids=%i", self.token, friendID];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
-                                                      encoding:NSUTF8StringEncoding 
-                                                         error:&error];
-    self.shouldUpdateMyFriends = YES;
-
-    NSLog(@"urlString: %@", urlString);
-    NSLog(@"Added guest %i", friendID);
-    NSLog(@"Server response: %@", urlResponse);
-}
-
-- (NSMutableArray *) searchFriendsWithQuery: (NSString *) searchQuery
-{
-    NSMutableArray * mutableArrayOfResults = [[NSMutableArray alloc] init];
-    
-    NSString * urlString = [serverIP stringByAppendingString:@"search_users?"];
-    urlString = [urlString stringByAppendingFormat:@"q=%@&key=%@", searchQuery, sharedKey];
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSData * json = [NSData dataWithContentsOfURL:url];
-    NSDictionary * friendsDictionary =      [NSJSONSerialization
-                                            JSONObjectWithData:json
-                                            options:NSJSONReadingMutableContainers 
-                                            error:nil];
-    
-    
-    NSArray * friendsDictionaryKeys = [friendsDictionary allKeys];
-    for (int i = 0; i < friendsDictionary.count; i++) {
-        
-        NSDictionary *friend = [friendsDictionary objectForKey:[friendsDictionaryKeys objectAtIndex:i]];
-        
-        int friendUserID = [[friend objectForKey:@"userid"] intValue];
-        NSString *friendFirstName = [friend objectForKey:@"name"];
-        NSString *friendLastName = [friend objectForKey:@"lastname"];
-        NSString *friendEmail = [friend objectForKey:@"email"];
-        NSString *friendPhone = [friend objectForKey:@"phone"];
-        
-        User *potentialFriend = [[User alloc] initWithUserID:friendUserID 
-                                                 andUserName:friendFirstName 
-                                             andUserLastName:friendLastName 
-                                                andUserEmail:friendEmail 
-                                                andUserPhone:friendPhone];
-        
-        [mutableArrayOfResults addObject:potentialFriend];
-    }
-    
-    return mutableArrayOfResults;
-    
 }
 
 - (BOOL) amIGoingToEvent: (int) eventID
@@ -521,6 +519,7 @@ static SingletonUser * sharedInstance = nil;
     else {
         return NO;
     }
+    return NO;
 }
 
 - (int) updateResponse: (BOOL) responseBoolean forEvent: (int) eventID
@@ -533,18 +532,17 @@ static SingletonUser * sharedInstance = nil;
         updatedResponse = @"no";
     }
     
-    NSString * urlString = [serverIP stringByAppendingString:@"update_response?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"update_response?"];
     urlString = [urlString stringByAppendingFormat:@"eventid=%i&response=%@&token=%@", eventID, updatedResponse, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
                                                       encoding:NSUTF8StringEncoding 
                                                          error:&error];
     
     if ([urlResponse isEqualToString:@"yes"]) {
-        NSLog(@"Response was updated!");
         
         /* Update local copy of invitations dictionary */
         NSString *eventIDString = [NSString stringWithFormat:@"%i", eventID];
@@ -555,6 +553,7 @@ static SingletonUser * sharedInstance = nil;
         
         return 1;
     }
+    
     else {
         NSLog(@"Error: Response was not updated");
         return 0;
@@ -565,14 +564,12 @@ static SingletonUser * sharedInstance = nil;
 
 - (int) updatePassword: (NSString *) newPassword
 {
-    NSString * urlString = [serverIP stringByAppendingString:@"update_user?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"update_user?"];
     urlString = [urlString stringByAppendingFormat:@"password=%@&token=%@", newPassword, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"urlString: %@", urlString);
-    
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
                                                       encoding:NSUTF8StringEncoding 
                                                          error:&error];
     
@@ -581,40 +578,39 @@ static SingletonUser * sharedInstance = nil;
     }
     
     else if ([urlResponse isEqualToString:@"User already exists"]){
-         return 2;
+        NSLog(@"User already exists"); 
+        return 2;
     }
     
     else {
+        NSLog(@"Server error");
         return 0;
     }
-    
     
     return 0;
 }
 
 - (int) updateUserDetailsWithFirstName: (NSString *) userFirstName andUserLastName: (NSString *) userLastName andUserEmail: (NSString *) userEmail andUserPhone: (NSString *) userPhone
 {
-    NSString * urlString = [serverIP stringByAppendingString:@"update_user?"];
+    NSString *urlString = [serverIP stringByAppendingString:@"update_user?"];
     urlString = [urlString stringByAppendingFormat:@"name=%@&lastname=%@&email=%@&phone=%@&token=%@", userFirstName, userLastName, userEmail, userPhone, self.token];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL * url = [NSURL URLWithString:urlString];
+    NSURL *url = [NSURL URLWithString:urlString];
     NSError *error = nil;
-    NSString * urlResponse = [NSString stringWithContentsOfURL:url 
+    NSString *urlResponse = [NSString stringWithContentsOfURL:url 
                                                       encoding:NSUTF8StringEncoding 
                                                          error:&error];
     
     if ([urlResponse isEqualToString:@"yes"]){
-        NSLog(@"User details have been updated successfully");
         return 1;
     }
     
     else if ([urlResponse isEqualToString:@"User already exists"]){
-        NSLog(@"Error: User already exists");
         return 2;
     }
     
     else {
-        NSLog(@"Error: User details could not be changed");
+        NSLog(@"Server error");
         return 0;
     }
     

@@ -15,7 +15,6 @@
 SingletonUser *currentUser;
 NSMutableArray *myEventsWithFriend;
 
-
 @interface FriendDetailViewController ()
 
 @end
@@ -69,6 +68,8 @@ NSMutableArray *myEventsWithFriend;
 
 - (void) deleteThisFriend
 {
+    // Confirm if user wants to delete this friend.
+    // Clicking "OK" calls delegate method clickedButtonAtIndex:0
     
     UIAlertView *confirmAlert = [[UIAlertView alloc] 
                                  initWithTitle:@"Confirmation" 
@@ -106,7 +107,6 @@ NSMutableArray *myEventsWithFriend;
         return 3;
     }
     else {
-        NSLog(@"Number of events with this friend: %i", myEventsWithFriend.count);
         return myEventsWithFriend.count;
     }
 }
@@ -142,8 +142,7 @@ NSMutableArray *myEventsWithFriend;
         return cell;
 }
         
-    
-    //Section 2 contains events that this friend has invited me to
+    //Section 2 contains events with this friend
     else {
         
         static NSString *CellIdentifier = @"Cell2";

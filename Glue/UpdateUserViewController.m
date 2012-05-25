@@ -16,6 +16,7 @@ SingletonUser *currentUser;
 @end
 
 @implementation UpdateUserViewController
+
 @synthesize firstNameTextLabel;
 @synthesize lastNameTextLabel;
 @synthesize emailTextLabel;
@@ -40,12 +41,6 @@ SingletonUser *currentUser;
     self.phoneTextLabel.text = currentUser.phone;
     
     [self.firstNameTextLabel becomeFirstResponder];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -55,8 +50,6 @@ SingletonUser *currentUser;
     [self setEmailTextLabel:nil];
     [self setPhoneTextLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -78,8 +71,9 @@ SingletonUser *currentUser;
 - (IBAction)doneButtonPressed:(id)sender {
     
     UIAlertView *alert;
+    
+    // Alert user if the name field is empty
     if ([[self.firstNameTextLabel text] length] == 0) {
-        
         alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
                                            message:@"What is the new name?"
                                           delegate:nil 
@@ -89,6 +83,7 @@ SingletonUser *currentUser;
         return;
     }
     
+    // Alert user if the last name field is empty
     else if ([[self.lastNameTextLabel text] length] == 0) {
         alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
                                            message:@"What is your new last name?"
@@ -99,7 +94,7 @@ SingletonUser *currentUser;
         return;
     }
     
-    /* Check if e-mail address doesn't already exist in the system */
+    // Alert user if the e-mail field is empty
     else if ([[self.emailTextLabel text] length] == 0) {
         alert = [[UIAlertView alloc] initWithTitle:@"Hold on a sec..." 
                                            message:@"What is your new e-mail address?"
@@ -116,7 +111,7 @@ SingletonUser *currentUser;
                                                 andUserPhone:phoneTextLabel.text];
     
     
-    /* If successful, hitting "OK" triggers delegate method. */
+    /* If the update was successful, hitting "OK" in updatedAlert triggers delegate method. */
     if (result == 1){
         UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Success!" 
                                                                message:@"Your information has been updated." 
@@ -132,7 +127,7 @@ SingletonUser *currentUser;
         [updatedAlert show];
     }
     
-    /* If user already exists, hitting "OK" triggers nothing. */
+    /* If user already exists, hitting "OK" in updatedAlert triggers nothing. */
     else if (result == 2){
         UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Error!" 
                                                                message:@"A user with that e-mail already exists." 
@@ -142,8 +137,7 @@ SingletonUser *currentUser;
         [updatedAlert show];
     }
     
-    /* If unsuccessful, hitting "OK" triggers nothing */
-    
+    /* If update was unsuccessful, hitting "OK" in updatedAlert triggers nothing */
     else {
         UIAlertView *updatedAlert = [[UIAlertView alloc] initWithTitle:@"Try again" 
                                                                message:@"Your information could not be updated." 

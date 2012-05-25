@@ -12,8 +12,8 @@
 #import "StreamCell.h"
 #import "Event.h"
 
-SingletonUser * currentUser;
-NSMutableArray * eventsMutableArray;
+SingletonUser *currentUser;
+NSMutableArray *eventsMutableArray;
 
 @interface MyEventsTableViewController ()
 

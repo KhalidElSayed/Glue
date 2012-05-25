@@ -145,7 +145,6 @@ User *currentFriend;
 
 - (void) addToGuestList: (id) sender 
 {
-    NSLog(@"addToGuestList was called");
     InviteFriendCell *selectedCell = (InviteFriendCell*) sender;
     NSNumber *guestIDNumber = [NSNumber numberWithInt:selectedCell.friendUserID];
     
@@ -156,7 +155,6 @@ User *currentFriend;
 
 - (void) removeFromGuestList: (id) sender 
 {
-    NSLog(@"removeFromGuestList was called");
     InviteFriendCell *selectedCell = (InviteFriendCell*) sender;
     NSNumber *guestIDNumber = [NSNumber numberWithInt:selectedCell.friendUserID];
     

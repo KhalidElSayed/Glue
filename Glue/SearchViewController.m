@@ -12,7 +12,6 @@
 SingletonUser *currentUser;
 NSMutableArray *mutableArrayOfResults;
 
-
 @interface SearchViewController ()
 
 @end
@@ -69,12 +68,10 @@ NSMutableArray *mutableArrayOfResults;
     
     // Configure the cell.
     User *potentialFriend = [mutableArrayOfResults objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", potentialFriend.name, potentialFriend.lastname];
+    cell.textLabel.text = potentialFriend.fullName;
     cell.detailTextLabel.text = potentialFriend.email;
     
-    
-    //cell.accessoryType = UITableViewCellAccessoryCheckmark;
-
+    // To implement: if a search result is already your friend, set the checkmark here.
     return cell;
 }
 
@@ -91,6 +88,7 @@ NSMutableArray *mutableArrayOfResults;
     }
     
     else {
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
                                                         message:@"Could not add friend, try again." 
                                                        delegate:nil 
@@ -102,21 +100,13 @@ NSMutableArray *mutableArrayOfResults;
     
 }
 
-
 /* UISearchDisplayDelegate methods */
-
-- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView{
-    
-    NSLog(@"didLoadSearchResultsTableView was called");
-    
-}
-
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
-{
-    NSLog(@"searchDisplayControllerWillBeginSearch");
-    
+{    
     [self.searchDisplayController.searchBar setShowsCancelButton:YES animated:NO];
     UIButton *cancelButton;
+    
+    // Change the button's default "Cancel" text to "Done"
     for (UIView *subView in self.searchDisplayController.searchBar.subviews){
         if ([subView isKindOfClass:[UIButton class]]){
             cancelButton = (UIButton *) subView;
@@ -126,23 +116,9 @@ NSMutableArray *mutableArrayOfResults;
 
 }
 
-/* This method is called when the search bar becomes active */
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
-{
-    NSLog(@"searchDisplayControllerDidBeginSearch");
-}
-
-/* This method is called when the button "Cancel" is pressed */
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
-{
-    NSLog(@"searchDisplayControllerDidEndSearch was called");
-    
-}
-
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     return NO;
-    
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
@@ -150,17 +126,12 @@ NSMutableArray *mutableArrayOfResults;
     return NO;
 }
 
-
 /* UISearchBar Delegate methods */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"searchBarSearchButtonClicked was called");
-    NSString * searchQuery = self.searchDisplayController.searchBar.text;
-    NSLog(@"Search Query: %@", searchQuery);
-    
+    NSString *searchQuery = self.searchDisplayController.searchBar.text;
     mutableArrayOfResults = [currentUser searchFriendsWithQuery:searchQuery];
     [self.searchDisplayController.searchResultsTableView reloadData];
 }
-
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -170,10 +141,8 @@ NSMutableArray *mutableArrayOfResults;
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView
 {
-    NSLog(@"willHideSearchResultsTableView has been called");
     mutableArrayOfResults = nil;
     [self.searchDisplayController.searchResultsTableView reloadData];
-    
 }
 
 @end

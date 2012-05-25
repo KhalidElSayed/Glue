@@ -80,8 +80,8 @@ eventStartTime, eventDescription, eventGuestList, eventGuestListKeys;
 
 - (void) addDeleteEventButton
 {
-    UIButton * deleteEventButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    UIView * buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
+    UIButton *deleteEventButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.tableView.frame.size.width, 50.0)];
     [deleteEventButton addTarget:self action:@selector(deleteThisEvent) forControlEvents:UIControlEventTouchDown];
     [deleteEventButton setTitle:@"Delete Event" forState:UIControlStateNormal];
     deleteEventButton.frame = CGRectMake(10.0, 0.0, self.tableView.frame.size.width - 20, 40.0);
@@ -275,7 +275,6 @@ eventStartTime, eventDescription, eventGuestList, eventGuestListKeys;
 }
 
 - (IBAction)refreshEventDetailsButtonPressed:(id)sender {
-    NSLog(@"refreshEventDetailsButton has been pressed");
     guestListDictionary = [currentUser getGuests:self.eventID];
     guestListDictionaryKeys = [guestListDictionary allKeys];
     [self.tableView reloadData];

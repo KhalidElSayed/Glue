@@ -35,7 +35,6 @@
 + (SingletonUser *) initSharedInstanceWithEmail: (NSString *) userEmail 
                                     andPassword: (NSString *) userPassword;
 
-
 // Creates event. Returns the event ID of the new event.
 - (int) createEvent: (NSString *) eventName 
          ofCategory: (NSString *) eventCategory 
@@ -59,24 +58,30 @@
 // Delete friend with friendID from the current user.
 - (void) deleteFriend: (int) friendID;
 
+// Returns NSMutableArray populated with the current user's friends (User objects)
 - (NSMutableArray *) getFriends;
 
+// Returns NSMutableArray populated with the Events the current user has created
 - (NSMutableArray *) getMyEvents;
 
+// Returns NSMutableArray popualted with Events the current user has been invited to
 - (NSMutableArray *) getInvitations;
 
+// Returns NSMutableArray with Events current user has created and invited friend w/ userid guestID
 - (NSMutableArray *) getMyEventsWithGuest: (int) guestID;
 
+// Returns NSMutableArray with Events to which the current user has been invited to by friend w/ userid hostID
 - (NSMutableArray *) getInvitationsFromHost: (int) hostID;
 
+// Returns all Events that contain both the current User and friend w/ userid friendID
 - (NSMutableArray *) getAllEventsWithFriend: (int) friendID;
 
+// Returns (unsorted) NSMutableDictionary with guests for Event w/ eventID
 - (NSMutableDictionary *) getGuests: (int) eventID;
 
 - (BOOL) amIGoingToEvent: (int) eventID;
 
 - (int) updateResponse: (BOOL) responseBoolean forEvent: (int) eventID;
-
 
 - (int) updatePassword: (NSString *) newPassword;
 
