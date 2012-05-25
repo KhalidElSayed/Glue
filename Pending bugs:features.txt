@@ -6,3 +6,4 @@
 * Update Stream only when it has changed
 * Integration with Facebook
 * Integration with SMS for people that don't have the app
+* Filter invitations/events by friend, category, location, time.
